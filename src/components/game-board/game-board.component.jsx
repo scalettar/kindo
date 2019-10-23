@@ -2,11 +2,10 @@ import React from "react";
 // import { Link } from "react-router-dom";
 
 import GameBoardTile from "../game-board-tile/game-board-tile.component";
-// import Storage from "../../storage/storage.js";
 
 import * as utils from "../../utils/functions.utils";
 
-import { GameBoardContainer } from "./game-board.styles";
+import { BackgroundContainer, GameBoardContainer } from "./game-board.styles";
 
 class GameBoard extends React.Component {
   constructor(props){
@@ -14,32 +13,23 @@ class GameBoard extends React.Component {
     // Initialize board state
     this.state = {
       tiles: Array(25).fill(null),
-      history: [],
       p1Next: true
     }
   };
-
-  // Create storage instance
-  // storage = new Storage();
 
   // Handle tile clicks
   handleTileClick(index) {
     // Get current state of tiles
     const tiles = this.state.tiles.slice();
-    // Get current state of history
-    let history = this.state.history;
     // End game if board is in winning state
     if(utils.checkWinner(tiles) || tiles[index]) {
       return;
     }
     // Update tile
     tiles[index] = this.state.p1Next ? 'x' : 'o';
-    // Push to game history
-    history.push(this.state.p1Next ? 'x' : 'o');
     // Update board state with new data
     this.setState({
       tiles: tiles,
-      history: history,
       p1Next: !this.state.p1Next
     })
   };
@@ -48,7 +38,6 @@ class GameBoard extends React.Component {
   handleBoardRestart = () => {
     this.setState({
       tiles: Array(25).fill(null),
-      history: [],
       p1Next: true
     })
   };
@@ -61,15 +50,13 @@ class GameBoard extends React.Component {
     if (winner) {
       // Winner exists
       status = `${winner} wins!`;
-      // Push game data to storage
-      // this.storage.update([`${winner} won`]);
     } else {
       // No winner yet, next turn
-      status = `${(this.state.p1Next ? 'x' : 'o')}'s turn.`;
+      status = `${(this.state.p1Next ? 'P1' : 'P2')}'s turn.`;
     }
 
     return (
-      <div className="view">
+      <BackgroundContainer>
         {/* <Link to="/" className="board-link">Scoreboard</Link> */}
         <div className="board-wrapper">
           <div className="board">
@@ -102,18 +89,9 @@ class GameBoard extends React.Component {
               <GameBoardTile value={this.state.tiles[24]} onClick={() => this.handleTileClick(24)} />
             </GameBoardContainer>
           </div>
-          <div className="board-history">
-            <h2 className="board-heading">Turn History:</h2>
-            <ul className="board-history-list">
-              {this.state.history.length === 0 && <span>No turns played.</span>}
-              {this.state.history.length !== 0 && this.state.history.map((turn, index) => {
-                return <li key={index}>Turn {index + 1}: <strong>{turn}</strong></li>
-              })}
-            </ul>
-          </div>
-          { winner && <button className="board__btn btn" onClick={this.handleBoardRestart}>Start new game</button> }
+          { winner && <button className="board__btn btn" onClick={this.handleBoardRestart}>New Game</button> }
       </div>
-    </div>
+    </BackgroundContainer>
     )
   }
 };
