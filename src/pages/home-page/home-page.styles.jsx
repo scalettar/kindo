@@ -2,9 +2,13 @@ import styled from "styled-components";
 
 export const GameBoardContainer = styled.div`
   border: 3px solid black;
-  height: 80vh;
-  width: 80vw;
+  /* height: 80vh;
+  width: 80vw; */
+  height: 500px;
+  width: 500px;
   margin: auto;
+  display: flex;
+  justify-content: center;
 `;
 
 export const HomePageContainer = styled.div`

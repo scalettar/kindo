@@ -4,8 +4,9 @@ import {
     TileContainer
 } from './game-board-tile.styles';
 
-const GameBoardTile = () => (
-    <TileContainer>
+const GameBoardTile = (props) => (
+    <TileContainer onClick={props.onClick}>
+        {props.value}
     </TileContainer>
 );
 
