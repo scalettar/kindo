@@ -7,6 +7,7 @@ export const BackgroundContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  /* Use colorhexa to find new color schemes */
   /* Theme (Default): Kindo */
   background: #fff8f2;
   /* Theme: 2077 */

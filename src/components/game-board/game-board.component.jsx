@@ -1,5 +1,4 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 
 import GameBoardTile from "../game-board-tile/game-board-tile.component";
 
@@ -8,21 +7,19 @@ import * as utils from "../../utils/functions.utils";
 import { BackgroundContainer, GameBoardContainer } from "./game-board.styles";
 
 class GameBoard extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   // Initialize board state
-  //   this.state = INITIAL_STATE;
-  // }
   state = {
+    theme: "default",
     tiles: this.initializeTiles(5, 5),
-    // tiles: Array(25).fill(null),
-    p1Next: true
+    isP1Turn: true,
+    p1Moves: 1,
+    p2Moves: 2
   };
 
   // Initialize basic tile properties
   initializeTiles(height, width) {
     let data = [];
 
+    // Create default tile data
     for (let i = 0; i < height; i++) {
       data.push([]);
       for (let j = 0; j < width; j++) {
@@ -30,60 +27,68 @@ class GameBoard extends React.Component {
           x: i,
           y: j,
           owner: 0,
-          king: false,
-          wallN: false,
-          wallE: false,
-          wallS: false,
-          wallW: false,
-          playedLast: false,
-          theme: "default"
+          isKing: false,
+          isWallN: false,
+          isWallE: false,
+          isWallS: false,
+          isWallW: false,
+          playedLast: false
         };
       }
     }
-    // Kings
+    // Set king tiles
     data[0][4].owner = 2;
     data[4][0].owner = 1;
+
     // console.log(data);
     return data;
   }
 
   // Handle tile clicks
-  handleTileClick = index => {
+  handleTileClick = (x, y) => {
     // Get current state of tiles
-    const tiles = this.state.tiles.slice();
+    // const tiles = this.state.tiles.slice();
+    // Check if tile is valid move
+    // if (!utils.validMove) {
+    //   return;
+    // }
     // End game if board is in winning state
-    if (utils.checkWinner(tiles) || tiles[index]) {
-      return;
-    }
+    // if (utils.checkWinner(tiles) || tiles[index]) {
+    //   return;
+    // }
     // Update tile
-    tiles[index] = this.state.p1Next ? "x" : "o";
+    let updatedTiles = this.state.tiles;
+    if(this.state.isP1Turn && this.state.tiles[x][y].owner !== 1) {
+      updatedTiles[x][y].owner = 1;
+    }
     // Update board state with new data
     this.setState({
-      tiles: tiles,
-      p1Next: !this.state.p1Next
+      tiles: updatedTiles,
+      isP1Turn: !this.state.isP1Turn
     });
   };
 
   // Restart board (reset to initial state)
   handleBoardRestart = () => {
     this.setState({
-      height: 5,
-      width: 5,
-      tiles: this.initializeTiles(this.height, this.width),
-      // tiles: Array(25).fill(null),
-      p1Next: true
+      tiles: this.initializeTiles(5, 5),
+      isP1Turn: true,
+      p1Moves: 1,
+      p2Moves: 2
     });
   };
 
-  // Load all tiles based on tile properties in state
+  // Load all tiles based on state tile data
   displayBoard(tiles) {
     return tiles.map(row => {
       return row.map(data => {
         return (
           <div key={data.x * row.length + data.y}>
-            {console.log("datax: " + data.x)}
-            {console.log("datay: " + data.y)}
-            <GameBoardTile onClick={() => this.handleTileClick(data.x, data.y)} data={data}/>
+            <GameBoardTile
+              onClick={() => this.handleTileClick(data.x, data.y)}
+              data={data}
+              theme={this.state.theme}
+            />
           </div>
         );
       });
@@ -102,18 +107,15 @@ class GameBoard extends React.Component {
       status = `${winner} wins!`;
     } else {
       // No winner yet, next turn
-      status = `${this.state.p1Next ? "P1" : "P2"}'s turn.`;
+      status = `${this.state.isP1Turn ? "P1" : "P2"}'s turn.`;
     }
 
     return (
       <BackgroundContainer>
-        {/* <Link to="/" className="board-link">Scoreboard</Link> */}
         <div className="board-wrapper">
           <div className="board">
             <h2 className="board-heading">{status}</h2>
-            <GameBoardContainer>
-              {this.displayBoard(this.state.tiles)}
-            </GameBoardContainer>
+            <GameBoardContainer>{this.displayBoard(this.state.tiles)}</GameBoardContainer>
           </div>
           {winner && (
             <button className="new-game-button" onClick={this.handleBoardRestart}>

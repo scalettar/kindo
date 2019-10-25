@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 // ------------------------THEMES---------------------
+// Use colorhexa to find new color schemes
 // THEME: Kindo (Default)
 const kindo0 = css`
   background-color: #f0e7df;
@@ -14,7 +15,7 @@ const kindo2 = css`
 
 // THEME: Cyber
 const cyber0 = css`
-  background-color: darkgrey;
+  background-color: #313639;
 `;
 const cyber1 = css`
   background-color: #00f0ff;

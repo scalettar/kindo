@@ -1,3 +1,5 @@
+// NOTE: Not currently in use
+
 import React from "react";
 
 import GameBoard from "../../components/game-board/game-board.component";
