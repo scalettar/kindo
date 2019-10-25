@@ -5,8 +5,8 @@ import {
 } from './game-board-tile.styles';
 
 const GameBoardTile = (props) => (
-    <TileContainer onClick={props.onClick}>
-        {props.value}
+    <TileContainer owner={props.data.owner} onClick={props.onClick}>
+        {props.data.owner}
     </TileContainer>
 );
 

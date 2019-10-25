@@ -14,7 +14,7 @@ export const BackgroundContainer = styled.div`
 `;
 
 export const GameBoardContainer = styled.div`
-  border: 3px solid grey;
+  /* border: 3px solid grey; */
   width: 500px;
   height: 500px;
   display: flex;

@@ -37,9 +37,8 @@ const getTileStyles = props => {
 };
 
 export const TileContainer = styled.button`
-  width: 18%;
-  height: 18%;
-  border: 3px solid red;
+  width: 90px;
+  height: 90px;
   border-radius: 5px;
   color: grey;
   border: none;
