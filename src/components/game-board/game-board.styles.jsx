@@ -7,7 +7,10 @@ export const BackgroundContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  /* Theme (Default): Kindo */
   background: #fff8f2;
+  /* Theme: 2077 */
+  /* background: #010001; */
 `;
 
 export const GameBoardContainer = styled.div`
