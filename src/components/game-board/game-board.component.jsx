@@ -11,7 +11,8 @@ class GameBoard extends React.Component {
     theme: "default",
     tiles: this.initializeTiles(5, 5),
     currentPlayer: 1,
-    moves: [1, 2]
+    moves: [1, 2],
+    winner: 0
   };
 
   // Initialize basic tile properties
@@ -45,52 +46,53 @@ class GameBoard extends React.Component {
 
   // Handle tile clicks
   handleTileClick = (x, y) => {
-    console.log("currentPlayer: " + this.state.currentPlayer + " x: " + x + " y: " + y);
+    const { currentPlayer } = this.state;
+    console.log("currentPlayer: " + currentPlayer + " x: " + x + " y: " + y);
     // Get current state of tiles
     // const tiles = this.state.tiles.slice();
-    // Check if tile is valid move
-    // if (!utils.validMove) {
-    //   return;
-    // }
-    // End game if board is in winning state
-    // if (utils.checkWinner(tiles) || tiles[index]) {
-    //   return;
-    // }
     // Define variables to update for next setState
     let updatedTiles = this.state.tiles.slice();
-    let updateMoves = this.state.moves;
+    let updatedMoves = this.state.moves;
     // Perform updates
-    if (updatedTiles[x][y].owner === this.state.currentPlayer) {
+    if (updatedTiles[x][y].owner === currentPlayer) {
       console.log("Player already owns this.");
     } else if (updatedTiles[x][y].owner === 0) {
       console.log("No one owns this tile.");
-      if (utils.checkNeighbors(updatedTiles, x, y, this.state.currentPlayer)) {
-        updatedTiles[x][y].owner = this.state.currentPlayer;
+      if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
+        updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
-        updateMoves[this.state.currentPlayer - 1]--;
+        updatedMoves[currentPlayer - 1]--;
       }
-      if (this.state.currentPlayer === 1);
+      if (currentPlayer === 1);
     } else {
       console.log("Opponent owns this tile.");
-      if (utils.checkNeighbors(updatedTiles, x, y, this.state.currentPlayer)) {
-        updatedTiles[x][y].owner = this.state.currentPlayer;
+      if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
+        updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
-        updateMoves[this.state.currentPlayer - 1]--;
+        updatedMoves[currentPlayer - 1]--;
       }
     }
+    // Check if any tiles detached from king and update accordingly
+
+    // !!!TODO!!!
+
     // Determine next player
-    let nextPlayer = this.state.currentPlayer;
-    let otherPlayer = this.state.currentPlayer === 1 ? 2 : 1;
-    if(updateMoves[this.state.currentPlayer - 1] < 1) {
-      updateMoves[this.state.currentPlayer -1] = 2;
+    let nextPlayer = currentPlayer;
+    let otherPlayer = currentPlayer === 1 ? 2 : 1;
+    if(updatedMoves[currentPlayer - 1] < 1) {
+      updatedMoves[currentPlayer -1] = 2;
       nextPlayer = otherPlayer;
     }
     // Update board state with new data
     this.setState({
       tiles: updatedTiles,
       currentPlayer: nextPlayer,
-      moves: updateMoves
+      moves: updatedMoves
     });
+    // End game if king tile is captured
+    if (utils.checkWinner(updatedTiles)){
+      return;
+    }
   };
 
   // Restart board (reset to initial state)
@@ -98,7 +100,8 @@ class GameBoard extends React.Component {
     this.setState({
       tiles: this.initializeTiles(5, 5),
       currentPlayer: true,
-      moves: [1, 2]
+      moves: [1, 2],
+      winner: 0
     });
   };
 
