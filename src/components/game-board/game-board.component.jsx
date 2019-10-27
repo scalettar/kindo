@@ -4,7 +4,7 @@ import GameBoardTile from "../game-board-tile/game-board-tile.component";
 
 import * as utils from "../../utils/functions.utils";
 
-import { BackgroundContainer, GameBoardContainer } from "./game-board.styles";
+import { BackgroundContainer, GameBoardContainer, MovesContainer } from "./game-board.styles";
 
 class GameBoard extends React.Component {
   state = {
@@ -85,8 +85,8 @@ class GameBoard extends React.Component {
     // Determine next player
     let nextPlayer = currentPlayer;
     let otherPlayer = currentPlayer === 1 ? 2 : 1;
-    if(updatedMoves[currentPlayer - 1] < 1) {
-      updatedMoves[currentPlayer -1] = 2;
+    if (updatedMoves[currentPlayer - 1] < 1) {
+      updatedMoves[currentPlayer - 1] = 2;
       nextPlayer = otherPlayer;
     }
     // Update board state with new data
@@ -96,7 +96,7 @@ class GameBoard extends React.Component {
       moves: updatedMoves
     });
     // End game if king tile is captured
-    if (utils.checkWinner(updatedTiles)){
+    if (utils.checkWinner(updatedTiles)) {
       return;
     }
   };
@@ -148,9 +148,9 @@ class GameBoard extends React.Component {
         <div className="board-wrapper">
           <div className="board">
             <h2 className="board-heading">{status}</h2>
-            <h3 className="moves">{`P1 Moves: ${this.state.moves[0]}, P2 Moves: ${
+            <MovesContainer currentPlayer={this.state.currentPlayer}>{`P1 Moves: ${this.state.moves[0]}, P2 Moves: ${
               this.state.moves[1]
-            }`}</h3>
+            }`}</MovesContainer>
             <GameBoardContainer>{this.displayBoard(this.state.tiles)}</GameBoardContainer>
           </div>
           {winner && (

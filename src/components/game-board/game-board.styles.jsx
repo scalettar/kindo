@@ -1,4 +1,33 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+// ------------------------THEMES---------------------
+// Use colorhexa to find new color schemes
+// THEME: Kindo (Default)
+const kindo1 = css`
+  background-color: #5abf84;
+`;
+const kindo2 = css`
+  background-color: #ffb473;
+`;
+
+// THEME: Cyber
+const cyber1 = css`
+  background-color: #00f0ff;
+`;
+const cyber2 = css`
+  background-color: #fcee09;
+`;
+// ---------------------------------------------------
+
+const getPlayerStyles = props => {
+  if (props.theme === "cyber") {
+    if (props.currentPlayer === 1) return cyber1;
+    else if (props.currentPlayer === 2) return cyber2;
+  } else {
+    if (props.currentPlayer === 1) return kindo1;
+    else if (props.currentPlayer === 2) return kindo2;
+  }
+};
 
 export const BackgroundContainer = styled.div`
   color: grey;
@@ -15,7 +44,6 @@ export const BackgroundContainer = styled.div`
 `;
 
 export const GameBoardContainer = styled.div`
-  /* border: 3px solid grey; */
   width: 500px;
   height: 500px;
   display: flex;
@@ -25,4 +53,12 @@ export const GameBoardContainer = styled.div`
   align-items: center;
   justify-content: space-around;
   justify-items: center;
+`;
+
+export const MovesContainer = styled.h3`
+  color: white;
+  padding: 5px;
+  width: 50%;
+  border-radius: 5px;
+  ${getPlayerStyles}
 `;
