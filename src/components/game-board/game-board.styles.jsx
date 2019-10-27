@@ -9,7 +9,7 @@ export const BackgroundContainer = styled.div`
   height: 100vh;
   /* Use colorhexa to find new color schemes */
   /* Theme (Default): Kindo */
-  background: #fff8f2;
+  background: #f7f1eb;
   /* Theme: 2077 */
   /* background: #010001; */
 `;

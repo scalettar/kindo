@@ -41,7 +41,7 @@ export const TileContainer = styled.button`
   width: 90px;
   height: 90px;
   border-radius: 5px;
-  color: grey;
+  color: #fafafa;
   border: none;
   &:focus {
     outline: none;

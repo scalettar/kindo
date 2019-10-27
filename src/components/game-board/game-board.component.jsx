@@ -32,15 +32,21 @@ class GameBoard extends React.Component {
           hasWallE: false,
           hasWallS: false,
           hasWallW: false,
+          isUnwallable: false,
           playedLast: false
         };
       }
     }
     // Set king tiles
+    data[0][4].isKing = true;
+    data[4][0].isKing = true;
     data[0][4].owner = 2;
     data[4][0].owner = 1;
-
-    // console.log(data);
+    // Set unwallable tiles
+    data[1][1].isUnwallable = true;
+    data[2][2].isUnwallable = true;
+    data[3][3].isUnwallable = true;
+    // Return
     return data;
   }
 
@@ -99,7 +105,7 @@ class GameBoard extends React.Component {
   handleBoardRestart = () => {
     this.setState({
       tiles: this.initializeTiles(5, 5),
-      currentPlayer: true,
+      currentPlayer: 1,
       moves: [1, 2],
       winner: 0
     });
