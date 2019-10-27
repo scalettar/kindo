@@ -10,9 +10,8 @@ class GameBoard extends React.Component {
   state = {
     theme: "default",
     tiles: this.initializeTiles(5, 5),
-    isP1Turn: true,
-    p1Moves: 1,
-    p2Moves: 2
+    currentPlayer: 1,
+    moves: [1, 2]
   };
 
   // Initialize basic tile properties
@@ -28,10 +27,10 @@ class GameBoard extends React.Component {
           y: j,
           owner: 0,
           isKing: false,
-          isWallN: false,
-          isWallE: false,
-          isWallS: false,
-          isWallW: false,
+          hasWallN: false,
+          hasWallE: false,
+          hasWallS: false,
+          hasWallW: false,
           playedLast: false
         };
       }
@@ -46,6 +45,7 @@ class GameBoard extends React.Component {
 
   // Handle tile clicks
   handleTileClick = (x, y) => {
+    console.log("currentPlayer: " + this.state.currentPlayer + " x: " + x + " y: " + y);
     // Get current state of tiles
     // const tiles = this.state.tiles.slice();
     // Check if tile is valid move
@@ -56,15 +56,40 @@ class GameBoard extends React.Component {
     // if (utils.checkWinner(tiles) || tiles[index]) {
     //   return;
     // }
-    // Update tile
-    let updatedTiles = this.state.tiles;
-    if(this.state.isP1Turn && this.state.tiles[x][y].owner !== 1) {
-      updatedTiles[x][y].owner = 1;
+    // Define variables to update for next setState
+    let updatedTiles = this.state.tiles.slice();
+    let updateMoves = this.state.moves;
+    // Perform updates
+    if (updatedTiles[x][y].owner === this.state.currentPlayer) {
+      console.log("Player already owns this.");
+    } else if (updatedTiles[x][y].owner === 0) {
+      console.log("No one owns this tile.");
+      if (utils.checkNeighbors(updatedTiles, x, y, this.state.currentPlayer)) {
+        updatedTiles[x][y].owner = this.state.currentPlayer;
+        updatedTiles[x][y].playedLast = true;
+        updateMoves[this.state.currentPlayer - 1]--;
+      }
+      if (this.state.currentPlayer === 1);
+    } else {
+      console.log("Opponent owns this tile.");
+      if (utils.checkNeighbors(updatedTiles, x, y, this.state.currentPlayer)) {
+        updatedTiles[x][y].owner = this.state.currentPlayer;
+        updatedTiles[x][y].playedLast = true;
+        updateMoves[this.state.currentPlayer - 1]--;
+      }
+    }
+    // Determine next player
+    let nextPlayer = this.state.currentPlayer;
+    let otherPlayer = this.state.currentPlayer === 1 ? 2 : 1;
+    if(updateMoves[this.state.currentPlayer - 1] < 1) {
+      updateMoves[this.state.currentPlayer -1] = 2;
+      nextPlayer = otherPlayer;
     }
     // Update board state with new data
     this.setState({
       tiles: updatedTiles,
-      isP1Turn: !this.state.isP1Turn
+      currentPlayer: nextPlayer,
+      moves: updateMoves
     });
   };
 
@@ -72,9 +97,8 @@ class GameBoard extends React.Component {
   handleBoardRestart = () => {
     this.setState({
       tiles: this.initializeTiles(5, 5),
-      isP1Turn: true,
-      p1Moves: 1,
-      p2Moves: 2
+      currentPlayer: true,
+      moves: [1, 2]
     });
   };
 
@@ -107,7 +131,7 @@ class GameBoard extends React.Component {
       status = `${winner} wins!`;
     } else {
       // No winner yet, next turn
-      status = `${this.state.isP1Turn ? "P1" : "P2"}'s turn.`;
+      status = `${this.state.currentPlayer === 1 ? "P1" : "P2"}'s turn.`;
     }
 
     return (
@@ -115,6 +139,9 @@ class GameBoard extends React.Component {
         <div className="board-wrapper">
           <div className="board">
             <h2 className="board-heading">{status}</h2>
+            <h3 className="moves">{`P1 Moves: ${this.state.moves[0]}, P2 Moves: ${
+              this.state.moves[1]
+            }`}</h3>
             <GameBoardContainer>{this.displayBoard(this.state.tiles)}</GameBoardContainer>
           </div>
           {winner && (

@@ -1,23 +1,39 @@
 export function checkWinner(tiles) {
     const rows = [
-		[0, 1, 2],
-		[3, 4, 5],
-		[6, 7, 8],
-		[0, 3, 6],
-		[1, 4, 7],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6]
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
     ]
 
-    for (let i=0; i<rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         const [a, b, c] = rows[i];
 
-        if(tiles[a] && tiles[a] === tiles[b] && tiles[a] === tiles[c]){
+        if (tiles[a] && tiles[a] === tiles[b] && tiles[a] === tiles[c]) {
             // Return winner ('x' or 'o')
             return tiles[a];
         }
     }
     // No winner so return null
     return null;
+};
+
+export function checkNeighbors(tiles, x, y, currentPlayer) {
+    if (!tiles[x][y].hasWallN) {
+        if (x !== 0 && tiles[x - 1][y].owner === currentPlayer) return true;
+    }
+    if (!tiles[x][y].hasWallE) {
+        if (y !== 4 && tiles[x][y + 1].owner === currentPlayer) return true;
+    }
+    if (!tiles[x][y].hasWallS) {
+        if (x !== 4 && tiles[x + 1][y].owner === currentPlayer) return true;
+    }
+    if (!tiles[x][y].hasWallW) {
+        if (y !== 0 && tiles[x][y - 1].owner === currentPlayer) return true;
+    }
+    return false;
 };

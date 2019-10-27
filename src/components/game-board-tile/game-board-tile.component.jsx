@@ -9,10 +9,11 @@ class GameBoardTile extends React.Component {
         const { data } = this.props;
 
         if(data.isKing) return "K";
-        else if(data.isWallN) return "^";
-        else if(data.isWallE) return ">";
-        else if(data.isWallS) return "v";
-        else if(data.isWallW) return "<";
+        else if(data.hasWallN) return "^";
+        else if(data.hasWallE) return ">";
+        else if(data.hasWallS) return "v";
+        else if(data.hasWallW) return "<";
+        if(data.playedLast) return "o";
         else return null;
     }
     render() {
