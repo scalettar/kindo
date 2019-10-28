@@ -102,7 +102,7 @@ class GameBoard extends React.Component {
     if (updatedCurrentMoves < 1) {
       nextPlayer = otherPlayer;
       updatedCurrentMoves = this.state.nextMoves[nextPlayer - 1];
-      updatedNextMoves[currentPlayer - 1] = 2;
+      updatedNextMoves[nextPlayer - 1] = 2;
       // Clear "played last" flag from new current player's tiles
       for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
