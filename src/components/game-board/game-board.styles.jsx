@@ -45,11 +45,3 @@ export const GameBoardContainer = styled.div`
   justify-content: space-around;
   justify-items: center;
 `;
-
-export const MovesContainer = styled.h3`
-  color: white;
-  padding: 5px;
-  width: 50%;
-  border-radius: 5px;
-  ${getPlayerStyles}
-`;

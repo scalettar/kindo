@@ -3,13 +3,18 @@ import styled from "styled-components";
 import {
   kindoP1,
   kindoP2,
-  kindoNeutral,
+  kindoEmpty,
   kindoNeutralDark,
   cyberP1,
   cyberP2,
   cyberNeutral,
   cyberNeutralDark
 } from "../../themes/themes.styles";
+
+const getAvatarStyles = props => {
+  if (props.player === 1) return kindoP1;
+  else return kindoP2;
+};
 
 const getPipStyles = props => {
   if (props.theme === "cyber") {
@@ -18,20 +23,28 @@ const getPipStyles = props => {
       else return cyberP2;
     } else if (props.pipColor === "dark") return cyberNeutralDark;
     else return cyberNeutral;
-  }
-  else {
+  } else {
     if (props.pipColor === "color") {
       if (props.player === 1) return kindoP1;
       else return kindoP2;
     } else if (props.pipColor === "dark") return kindoNeutralDark;
-    else return kindoNeutral;
+    else return kindoEmpty;
   }
 };
+
+export const AvatarContainer = styled.div`
+  height: 90px;
+  width: 90px;
+  border-radius: 100px;
+  margin-bottom: 10px;
+  ${getAvatarStyles}
+`;
 
 export const MovesContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
+  padding: 10px;
   width: 500px;
 `;
 
@@ -53,5 +66,5 @@ export const PipContainer = styled.div`
 export const PlayerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 `;

@@ -7,6 +7,10 @@ import { css } from "styled-components";
 export const kindoBackground = css`
   background-color: #f7f1eb;
 `;
+export const kindoEmpty = css`
+  box-shadow: 0 0 0 2px #e1d4ca inset;
+  background-color: #f7f1eb;
+`;
 export const kindoNeutral = css`
   background-color: #f0e7df;
 `;

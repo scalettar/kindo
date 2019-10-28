@@ -1,7 +1,7 @@
 import React from "react";
 
 import GameBoardTile from "../game-board-tile/game-board-tile.component";
-import GameBoardMoves from "../game-board-moves/game-board-moves.component";
+import GameBoardPlayers from "../game-board-players/game-board-players.component";
 
 import * as utils from "../../utils/functions.utils";
 
@@ -158,7 +158,7 @@ class GameBoard extends React.Component {
         <div className="board-wrapper">
           <div className="board">
             <h2 className="board-heading">{status}</h2>
-            <GameBoardMoves
+            <GameBoardPlayers
               theme={this.state.theme}
               currentPlayer={this.state.currentPlayer}
               currentMoves={this.state.currentMoves}

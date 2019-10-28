@@ -16,7 +16,7 @@ TODO LIST
 * Add unwallable image overlay for tiles
 * Add tile played on last turn overlay for tiles
 * Add player 1 and player 2 icons and make it clearer whose turn it is (highlight icons)
-* Add move counter pips beneath player icons instead of having numbers
+* ~~Add move counter pips beneath player icons instead of having numbers~~
 
 ## Refactoring
 

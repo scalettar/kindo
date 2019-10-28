@@ -1,21 +1,22 @@
 import React from "react";
 
 import {
+  AvatarContainer,
   MovesContainer,
   PipsContainer,
   PipContainer,
   PlayerContainer
-} from "./game-board-moves.styles";
+} from "./game-board-players.styles";
 
-class GameBoardMoves extends React.Component {
+class GameBoardPlayers extends React.Component {
   getPipColors(player, pipNumber) {
     if (player === this.props.currentPlayer) {
       if (this.props.currentMoves >= pipNumber) return "color";
       else if (this.props.nextMoves[player - 1] >= pipNumber) return "dark";
-      else return "neutral";
+      else return "empty";
     } else {
       if ((this.props.nextMoves[player - 1] || 2) >= pipNumber) return "dark";
-      else return "neutral";
+      else return "empty";
     }
   }
 
@@ -24,6 +25,7 @@ class GameBoardMoves extends React.Component {
     return (
       <MovesContainer>
         <PlayerContainer>
+          <AvatarContainer player={1} />
           <PipsContainer>
             <PipContainer theme={theme} player={1} pipColor={this.getPipColors(1, 1)} />
             <PipContainer theme={theme} player={1} pipColor={this.getPipColors(1, 2)} />
@@ -32,6 +34,7 @@ class GameBoardMoves extends React.Component {
           </PipsContainer>
         </PlayerContainer>
         <PlayerContainer>
+          <AvatarContainer player={2} />
           <PipsContainer>
             <PipContainer theme={theme} player={2} pipColor={this.getPipColors(2, 1)} />
             <PipContainer theme={theme} player={2} pipColor={this.getPipColors(2, 2)} />
@@ -44,4 +47,4 @@ class GameBoardMoves extends React.Component {
   }
 }
 
-export default GameBoardMoves;
+export default GameBoardPlayers;
