@@ -1,6 +1,7 @@
 import React from "react";
 
 import GameBoardTile from "../game-board-tile/game-board-tile.component";
+import GameBoardMoves from "../game-board-moves/game-board-moves.component";
 
 import * as utils from "../../utils/functions.utils";
 
@@ -157,9 +158,12 @@ class GameBoard extends React.Component {
         <div className="board-wrapper">
           <div className="board">
             <h2 className="board-heading">{status}</h2>
-            <MovesContainer currentPlayer={this.state.currentPlayer}>{`P1 Moves: ${
-              this.state.nextMoves[0]
-            }, P2 Moves: ${this.state.nextMoves[1]}`}</MovesContainer>
+            <GameBoardMoves
+              theme={this.state.theme}
+              currentPlayer={this.state.currentPlayer}
+              currentMoves={this.state.currentMoves}
+              nextMoves={this.state.nextMoves}
+            />
             <GameBoardContainer>{this.displayBoard(this.state.tiles)}</GameBoardContainer>
           </div>
           {winner && (

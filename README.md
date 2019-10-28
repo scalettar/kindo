@@ -20,7 +20,8 @@ TODO LIST
 
 ## Refactoring
 
-* Implement better theming solution
+* ~~Implement better theming solution~~
+* Move theme properties into arrays by property type (can call theme by index instead of using if-statement)
 * Handle state with redux
 
 ## Later Features

@@ -30,5 +30,8 @@ export const TileContainer = styled.button`
   &:focus {
     outline: none;
   }
+  &:hover {
+    opacity: 0.9;
+  }
   ${getTileStyles}
 `;
