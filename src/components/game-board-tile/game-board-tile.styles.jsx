@@ -1,39 +1,23 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-// ------------------------THEMES---------------------
-// Use colorhexa to find new color schemes
-// THEME: Kindo (Default)
-const kindo0 = css`
-  background-color: #f0e7df;
-`;
-const kindo1 = css`
-  background-color: #5abf84;
-`;
-const kindo2 = css`
-  background-color: #ffb473;
-`;
-
-// THEME: Cyber
-const cyber0 = css`
-  background-color: #313639;
-`;
-const cyber1 = css`
-  background-color: #00f0ff;
-`;
-const cyber2 = css`
-  background-color: #fcee09;
-`;
-// ---------------------------------------------------
+import {
+  kindoNeutral,
+  kindoP1,
+  kindoP2,
+  cyberNeutral,
+  cyberP1,
+  cyberP2
+} from "../../themes/themes.styles";
 
 const getTileStyles = props => {
   if (props.theme === "cyber") {
-    if (props.owner === 1) return cyber1;
-    else if (props.owner === 2) return cyber2;
-    else return cyber0;
+    if (props.owner === 1) return cyberP1;
+    else if (props.owner === 2) return cyberP2;
+    else return cyberNeutral;
   } else {
-    if (props.owner === 1) return kindo1;
-    else if (props.owner === 2) return kindo2;
-    else return kindo0;
+    if (props.owner === 1) return kindoP1;
+    else if (props.owner === 2) return kindoP2;
+    else return kindoNeutral;
   }
 };
 

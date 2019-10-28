@@ -26,4 +26,5 @@ export function clearPlayedLast(tiles, otherPlayer) {
             if (tiles[i][j].owner === otherPlayer && tiles[i][j].playedLast) tiles[i][j].playedLast = false;
         }
     }
+    return tiles;
 };

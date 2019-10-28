@@ -54,16 +54,6 @@ class GameBoard extends React.Component {
   // Handle tile clicks
   handleTileClick = (x, y) => {
     const { currentPlayer } = this.state;
-    console.log(
-      "START, CurrentPlayer: " +
-        currentPlayer +
-        " CurrentMoves: " +
-        this.state.currentMoves +
-        " nextMoves: " +
-        this.state.nextMoves[0] +
-        ", " +
-        this.state.nextMoves[1]
-    );
     let otherPlayer = currentPlayer === 1 ? 2 : 1;
     // Define variables to update for next setState
     let updatedTiles = this.state.tiles.slice();
@@ -104,12 +94,7 @@ class GameBoard extends React.Component {
       updatedCurrentMoves = this.state.nextMoves[nextPlayer - 1];
       updatedNextMoves[nextPlayer - 1] = 2;
       // Clear "played last" flag from new current player's tiles
-      for (let i = 0; i < 5; i++) {
-        for (let j = 0; j < 5; j++) {
-          if (updatedTiles[i][j].owner === nextPlayer && updatedTiles[i][j].playedLast)
-            updatedTiles[i][j].playedLast = false;
-        }
-      }
+      updatedTiles = utils.clearPlayedLast(updatedTiles, otherPlayer);
     }
     // Update board state with new data
     this.setState({

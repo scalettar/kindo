@@ -1,31 +1,26 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-// ------------------------THEMES---------------------
-// Use colorhexa to find new color schemes
-// THEME: Kindo (Default)
-const kindo1 = css`
-  background-color: #5abf84;
-`;
-const kindo2 = css`
-  background-color: #ffb473;
-`;
+import {
+  kindoBackground,
+  kindoP1,
+  kindoP2,
+  cyberBackground,
+  cyberP1,
+  cyberP2
+} from "../../themes/themes.styles";
 
-// THEME: Cyber
-const cyber1 = css`
-  background-color: #00f0ff;
-`;
-const cyber2 = css`
-  background-color: #fcee09;
-`;
-// ---------------------------------------------------
+const getBackgroundStyles = props => {
+  if (props.theme === "cyber") return cyberBackground;
+  else return kindoBackground;
+};
 
 const getPlayerStyles = props => {
   if (props.theme === "cyber") {
-    if (props.currentPlayer === 1) return cyber1;
-    else if (props.currentPlayer === 2) return cyber2;
+    if (props.currentPlayer === 1) return cyberP1;
+    else if (props.currentPlayer === 2) return cyberP2;
   } else {
-    if (props.currentPlayer === 1) return kindo1;
-    else if (props.currentPlayer === 2) return kindo2;
+    if (props.currentPlayer === 1) return kindoP1;
+    else if (props.currentPlayer === 2) return kindoP2;
   }
 };
 
@@ -36,11 +31,7 @@ export const BackgroundContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
-  /* Use colorhexa to find new color schemes */
-  /* Theme (Default): Kindo */
-  background: #f7f1eb;
-  /* Theme: 2077 */
-  /* background: #010001; */
+  ${getBackgroundStyles}
 `;
 
 export const GameBoardContainer = styled.div`
