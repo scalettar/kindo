@@ -11,7 +11,8 @@ class GameBoard extends React.Component {
     theme: "default",
     tiles: this.initializeTiles(5, 5),
     currentPlayer: 1,
-    moves: [1, 2],
+    currentMoves: 1,
+    nextMoves: [2, 2],
     winner: 0
   };
 
@@ -53,47 +54,69 @@ class GameBoard extends React.Component {
   // Handle tile clicks
   handleTileClick = (x, y) => {
     const { currentPlayer } = this.state;
-    console.log("currentPlayer: " + currentPlayer + " x: " + x + " y: " + y);
-    // Get current state of tiles
-    // const tiles = this.state.tiles.slice();
+    console.log(
+      "START, CurrentPlayer: " +
+        currentPlayer +
+        " CurrentMoves: " +
+        this.state.currentMoves +
+        " nextMoves: " +
+        this.state.nextMoves[0] +
+        ", " +
+        this.state.nextMoves[1]
+    );
+    let otherPlayer = currentPlayer === 1 ? 2 : 1;
     // Define variables to update for next setState
     let updatedTiles = this.state.tiles.slice();
-    let updatedMoves = this.state.moves;
+    let updatedCurrentMoves = this.state.currentMoves;
+    let updatedNextMoves = this.state.nextMoves;
     // Perform updates
     if (updatedTiles[x][y].owner === currentPlayer) {
-      console.log("Player already owns this.");
+      // !!! TODO !!!
+      // After player clicks on tile, they can press one of 4 keys.
+      // Each key corresponds to a direction to place a wall
     } else if (updatedTiles[x][y].owner === 0) {
-      console.log("No one owns this tile.");
       if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
-        updatedMoves[currentPlayer - 1]--;
+        updatedCurrentMoves--;
       }
       if (currentPlayer === 1);
     } else {
-      console.log("Opponent owns this tile.");
       if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
+        if (updatedTiles[x][y].playedLast) updatedNextMoves[otherPlayer - 1]++;
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
-        updatedMoves[currentPlayer - 1]--;
+        updatedCurrentMoves--;
       }
     }
     // Check if any tiles detached from king and update accordingly
 
-    // !!!TODO!!!
+    // !!! TODO !!!
+    // 1. Use DFS from otherPlayer's king tile to check which of their tiles are still attached
+    // Make a list of these attached tiles
+    // 2. Go through all tiles. If tile owner is otherPlayer, check if that tile is in the list
+    // made in step 1. If not then change owner to current player.
 
     // Determine next player
     let nextPlayer = currentPlayer;
-    let otherPlayer = currentPlayer === 1 ? 2 : 1;
-    if (updatedMoves[currentPlayer - 1] < 1) {
-      updatedMoves[currentPlayer - 1] = 2;
+    if (updatedCurrentMoves < 1) {
       nextPlayer = otherPlayer;
+      updatedCurrentMoves = this.state.nextMoves[nextPlayer - 1];
+      updatedNextMoves[currentPlayer - 1] = 2;
+      // Clear "played last" flag from new current player's tiles
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          if (updatedTiles[i][j].owner === nextPlayer && updatedTiles[i][j].playedLast)
+            updatedTiles[i][j].playedLast = false;
+        }
+      }
     }
     // Update board state with new data
     this.setState({
       tiles: updatedTiles,
       currentPlayer: nextPlayer,
-      moves: updatedMoves
+      currentMoves: updatedCurrentMoves,
+      nextMoves: updatedNextMoves
     });
     // End game if king tile is captured
     if (utils.checkWinner(updatedTiles)) {
@@ -106,7 +129,8 @@ class GameBoard extends React.Component {
     this.setState({
       tiles: this.initializeTiles(5, 5),
       currentPlayer: 1,
-      moves: [1, 2],
+      currentMoves: 1,
+      nextMoves: [2, 2],
       winner: 0
     });
   };
@@ -148,9 +172,9 @@ class GameBoard extends React.Component {
         <div className="board-wrapper">
           <div className="board">
             <h2 className="board-heading">{status}</h2>
-            <MovesContainer currentPlayer={this.state.currentPlayer}>{`P1 Moves: ${this.state.moves[0]}, P2 Moves: ${
-              this.state.moves[1]
-            }`}</MovesContainer>
+            <MovesContainer currentPlayer={this.state.currentPlayer}>{`P1 Moves: ${
+              this.state.nextMoves[0]
+            }, P2 Moves: ${this.state.nextMoves[1]}`}</MovesContainer>
             <GameBoardContainer>{this.displayBoard(this.state.tiles)}</GameBoardContainer>
           </div>
           {winner && (
