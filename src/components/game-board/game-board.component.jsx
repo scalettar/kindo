@@ -5,12 +5,13 @@ import GameBoardPlayers from "../game-board-players/game-board-players.component
 
 import * as utils from "../../utils/functions.utils";
 
-import { BackgroundContainer, GameBoardContainer, MovesContainer } from "./game-board.styles";
+import { BackgroundContainer, GameBoardContainer } from "./game-board.styles";
 
 class GameBoard extends React.Component {
   state = {
     theme: "default",
     tiles: this.initializeTiles(5, 5),
+    tileCount: [1, 1],
     currentPlayer: 1,
     currentMoves: 1,
     nextMoves: [2, 2],
@@ -58,6 +59,7 @@ class GameBoard extends React.Component {
     let otherPlayer = currentPlayer === 1 ? 2 : 1;
     // Define variables to update for next setState
     let updatedTiles = this.state.tiles.slice();
+    let updatedTileCount = this.state.tileCount;
     let updatedCurrentMoves = this.state.currentMoves;
     let updatedNextMoves = this.state.nextMoves;
     // Perform updates
@@ -70,6 +72,7 @@ class GameBoard extends React.Component {
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
         updatedCurrentMoves--;
+        updatedTileCount[currentPlayer - 1]++;
       }
       if (currentPlayer === 1);
     } else {
@@ -78,16 +81,25 @@ class GameBoard extends React.Component {
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
         updatedCurrentMoves--;
+        updatedTileCount[currentPlayer - 1]++;
+        updatedTileCount[otherPlayer - 1]--;
       }
     }
     // Check if any tiles detached from king and update accordingly
-
-    // !!! TODO !!!
-    // 1. Use DFS from otherPlayer's king tile to check which of their tiles are still attached
-    // Make a list of these attached tiles
-    // 2. Go through all tiles. If tile owner is otherPlayer, check if that tile is in the list
-    // made in step 1. If not then change owner to current player.
-
+    let otherPlayerConnectedTiles = utils.checkConnected(updatedTiles, otherPlayer);
+    console.log("connected list: " + otherPlayerConnectedTiles);
+    if (otherPlayerConnectedTiles.length < updatedTileCount[otherPlayer - 1]) {
+      updatedTiles = utils.changeOwnership(
+        updatedTiles,
+        otherPlayerConnectedTiles,
+        currentPlayer,
+        otherPlayer
+      );
+      updatedNextMoves[currentPlayer - 1]++;
+      let numSwapped = updatedTileCount[otherPlayer - 1] - otherPlayerConnectedTiles.length;
+      updatedTileCount[currentPlayer - 1] += numSwapped;
+      updatedTileCount[otherPlayer - 1] -= numSwapped;
+    }
     // Determine next player
     let nextPlayer = currentPlayer;
     if (updatedCurrentMoves < 1) {
@@ -100,6 +112,7 @@ class GameBoard extends React.Component {
     // Update board state with new data
     this.setState({
       tiles: updatedTiles,
+      tileCount: updatedTileCount,
       currentPlayer: nextPlayer,
       currentMoves: updatedCurrentMoves,
       nextMoves: updatedNextMoves
@@ -117,6 +130,7 @@ class GameBoard extends React.Component {
       currentPlayer: 1,
       currentMoves: 1,
       nextMoves: [2, 2],
+      tileCount: [1, 1],
       winner: 0
     });
   };
@@ -139,6 +153,8 @@ class GameBoard extends React.Component {
   }
 
   render() {
+    // Logs
+    console.log("# of Tiles (P1, P2): " + this.state.tileCount[0] + ", " + this.state.tileCount[1]);
     // Destructure common properties
     const { tiles } = this.state;
     // Get winner if exists
@@ -152,7 +168,6 @@ class GameBoard extends React.Component {
       // No winner yet, next turn
       status = `${this.state.currentPlayer === 1 ? "P1" : "P2"}'s turn.`;
     }
-
     return (
       <BackgroundContainer>
         <div className="board-wrapper">

@@ -52,12 +52,12 @@ export const PipsContainer = styled.div`
   width: 80px;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 `;
 
 export const PipContainer = styled.div`
   width: 13px;
   height: 13px;
-  margin-right: 6px;
   border-radius: 2px;
   background-color: black;
   ${getPipStyles}
