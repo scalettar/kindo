@@ -77,7 +77,8 @@ class GameBoard extends React.Component {
       if (currentPlayer === 1);
     } else {
       if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
-        if (updatedTiles[x][y].playedLast) updatedNextMoves[otherPlayer - 1]++;
+        if (updatedTiles[x][y].playedLast && updatedNextMoves[otherPlayer - 1] < 4)
+          updatedNextMoves[otherPlayer - 1]++;
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
         updatedCurrentMoves--;
@@ -95,7 +96,7 @@ class GameBoard extends React.Component {
         currentPlayer,
         otherPlayer
       );
-      updatedNextMoves[currentPlayer - 1]++;
+      if(updatedNextMoves[currentPlayer - 1] < 4) updatedNextMoves[currentPlayer - 1]++;
       let numSwapped = updatedTileCount[otherPlayer - 1] - otherPlayerConnectedTiles.length;
       updatedTileCount[currentPlayer - 1] += numSwapped;
       updatedTileCount[otherPlayer - 1] -= numSwapped;

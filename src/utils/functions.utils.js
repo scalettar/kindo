@@ -4,7 +4,10 @@ export const changeOwnership = (tiles, connected, currentPlayer, otherPlayer) =>
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
             if (tiles[i][j].owner === otherPlayer) {
-                if (!connected.includes(i * 5 + j)) tiles[i][j].owner = currentPlayer;
+                if (!connected.includes(i * 5 + j)) {
+                    tiles[i][j].owner = currentPlayer;
+                    tiles[i][j].playedLast = false;
+                }
             }
         }
     }
