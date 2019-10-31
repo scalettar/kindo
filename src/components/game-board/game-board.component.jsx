@@ -62,6 +62,10 @@ class GameBoard extends React.Component {
     let updatedTileCount = this.state.tileCount;
     let updatedCurrentMoves = this.state.currentMoves;
     let updatedNextMoves = this.state.nextMoves;
+    // End game if king tile is captured
+    if (utils.checkWinner(updatedTiles)) {
+      return;
+    }
     // Perform updates
     if (updatedTiles[x][y].owner === currentPlayer) {
       // !!! TODO !!!
@@ -96,7 +100,7 @@ class GameBoard extends React.Component {
         currentPlayer,
         otherPlayer
       );
-      if(updatedNextMoves[currentPlayer - 1] < 4) updatedNextMoves[currentPlayer - 1]++;
+      if (updatedNextMoves[currentPlayer - 1] < 4) updatedNextMoves[currentPlayer - 1]++;
       let numSwapped = updatedTileCount[otherPlayer - 1] - otherPlayerConnectedTiles.length;
       updatedTileCount[currentPlayer - 1] += numSwapped;
       updatedTileCount[otherPlayer - 1] -= numSwapped;
@@ -118,10 +122,6 @@ class GameBoard extends React.Component {
       currentMoves: updatedCurrentMoves,
       nextMoves: updatedNextMoves
     });
-    // End game if king tile is captured
-    if (utils.checkWinner(updatedTiles)) {
-      return;
-    }
   };
 
   // Restart board (reset to initial state)
