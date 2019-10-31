@@ -1,13 +1,9 @@
 import styled from "styled-components";
 
-import {
-  kindoBackground,
-  cyberBackground,
-} from "../../themes/themes.styles";
+import { getBackground } from "../../themes/themes.styles";
 
 const getBackgroundStyles = props => {
-  if (props.theme === "cyber") return cyberBackground;
-  else return kindoBackground;
+  return getBackground(props.theme);
 };
 
 export const BackgroundContainer = styled.div`
@@ -27,7 +23,5 @@ export const GameBoardContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-content: space-around;
-  align-items: center;
   justify-content: space-around;
-  justify-items: center;
 `;

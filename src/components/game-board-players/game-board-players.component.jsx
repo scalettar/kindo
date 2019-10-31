@@ -4,9 +4,9 @@ import GamePip from "../game-pip/game-pip.component";
 
 import {
   AvatarContainer,
-  MovesContainer,
   PipsContainer,
-  PlayerContainer
+  PlayerContainer,
+  PlayersContainer
 } from "./game-board-players.styles";
 
 class GameBoardPlayers extends React.Component {
@@ -24,9 +24,9 @@ class GameBoardPlayers extends React.Component {
   render() {
     const { theme } = this.props;
     return (
-      <MovesContainer>
+      <PlayersContainer>
         <PlayerContainer>
-          <AvatarContainer player={1} />
+          <AvatarContainer theme={theme} player={1} />
           <PipsContainer>
             <GamePip theme={theme} player={1} pipColor={this.getPipColors(1, 1)} />
             <GamePip theme={theme} player={1} pipColor={this.getPipColors(1, 2)} />
@@ -35,7 +35,7 @@ class GameBoardPlayers extends React.Component {
           </PipsContainer>
         </PlayerContainer>
         <PlayerContainer>
-          <AvatarContainer player={2} />
+          <AvatarContainer theme={theme} player={2} />
           <PipsContainer>
             <GamePip theme={theme} player={2} pipColor={this.getPipColors(2, 1)} />
             <GamePip theme={theme} player={2} pipColor={this.getPipColors(2, 2)} />
@@ -43,7 +43,7 @@ class GameBoardPlayers extends React.Component {
             <GamePip theme={theme} player={2} pipColor={this.getPipColors(2, 4)} />
           </PipsContainer>
         </PlayerContainer>
-      </MovesContainer>
+      </PlayersContainer>
     );
   }
 }

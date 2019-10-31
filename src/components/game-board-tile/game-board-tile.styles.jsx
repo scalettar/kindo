@@ -1,24 +1,11 @@
 import styled from "styled-components";
 
-import {
-  kindoNeutral,
-  kindoP1,
-  kindoP2,
-  cyberNeutral,
-  cyberP1,
-  cyberP2
-} from "../../themes/themes.styles";
+import { getP1, getP2, getNeutral } from "../../themes/themes.styles";
 
 const getTileStyles = props => {
-  if (props.theme === "cyber") {
-    if (props.owner === 1) return cyberP1;
-    else if (props.owner === 2) return cyberP2;
-    else return cyberNeutral;
-  } else {
-    if (props.owner === 1) return kindoP1;
-    else if (props.owner === 2) return kindoP2;
-    else return kindoNeutral;
-  }
+  if (props.owner === 1) return getP1(props.theme);
+  else if (props.owner === 2) return getP2(props.theme);
+  else return getNeutral(props.theme);
 };
 
 export const TileContainer = styled.button`

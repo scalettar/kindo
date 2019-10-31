@@ -27,7 +27,6 @@ export const checkConnected = (tiles, otherPlayer) => {
     else stack.push(4);
 
     while (Array.isArray(stack) && stack.length) {
-        console.log(stack);
         currentIndex = stack.pop();
         x = currentIndex / 5|0;
         y = currentIndex % 5;

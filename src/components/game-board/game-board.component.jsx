@@ -9,7 +9,7 @@ import { BackgroundContainer, GameBoardContainer } from "./game-board.styles";
 
 class GameBoard extends React.Component {
   state = {
-    theme: "default",
+    theme: "kindoNight",
     tiles: this.initializeTiles(5, 5),
     tileCount: [1, 1],
     currentPlayer: 1,
@@ -92,7 +92,6 @@ class GameBoard extends React.Component {
     }
     // Check if any tiles detached from king and update accordingly
     let otherPlayerConnectedTiles = utils.checkConnected(updatedTiles, otherPlayer);
-    console.log("connected list: " + otherPlayerConnectedTiles);
     if (otherPlayerConnectedTiles.length < updatedTileCount[otherPlayer - 1]) {
       updatedTiles = utils.changeOwnership(
         updatedTiles,
@@ -154,8 +153,6 @@ class GameBoard extends React.Component {
   }
 
   render() {
-    // Logs
-    console.log("# of Tiles (P1, P2): " + this.state.tileCount[0] + ", " + this.state.tileCount[1]);
     // Destructure common properties
     const { tiles } = this.state;
     // Get winner if exists
@@ -170,7 +167,7 @@ class GameBoard extends React.Component {
       status = `${this.state.currentPlayer === 1 ? "P1" : "P2"}'s turn.`;
     }
     return (
-      <BackgroundContainer>
+      <BackgroundContainer theme={this.state.theme}>
         <div className="board-wrapper">
           <div className="board">
             <h2 className="board-heading">{status}</h2>

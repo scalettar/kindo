@@ -21,7 +21,7 @@ TODO LIST
 ## Refactoring
 
 * ~~Implement better theming solution~~
-* Move theme properties into arrays by property type (can call theme by index instead of using if-statement)
+* ~~Consolidate theme selection to theme.styles~~
 * Handle state with redux
 
 ## Later Features
@@ -31,3 +31,7 @@ TODO LIST
 * Add statistics page
 * Implement user profiles
 * Add AI
+
+## Bugs
+
+* Game board is not centered (extra space to right)

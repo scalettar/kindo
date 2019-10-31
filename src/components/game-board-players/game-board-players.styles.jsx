@@ -1,13 +1,10 @@
 import styled from "styled-components";
 
-import {
-  kindoP1,
-  kindoP2,
-} from "../../themes/themes.styles";
+import { getP1, getP2 } from "../../themes/themes.styles";
 
 const getAvatarStyles = props => {
-  if (props.player === 1) return kindoP1;
-  else return kindoP2;
+  if (props.player === 1) return getP1(props.theme);
+  else return getP2(props.theme);
 };
 
 export const AvatarContainer = styled.div`
@@ -16,14 +13,6 @@ export const AvatarContainer = styled.div`
   border-radius: 100px;
   margin-bottom: 10px;
   ${getAvatarStyles}
-`;
-
-export const MovesContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 10px;
-  width: 500px;
 `;
 
 export const PipsContainer = styled.div`
@@ -37,4 +26,12 @@ export const PlayerContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const PlayersContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px;
+  width: 500px;
 `;
