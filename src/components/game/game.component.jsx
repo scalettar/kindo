@@ -10,7 +10,7 @@ import { BackgroundContainer, GameContainer, GameAreaContainer } from "./game.st
 class Game extends React.Component {
   state = {
     theme: "kindo",
-    tiles: this.initializeTiles(5, 5),
+    tiles: this.initializeTiles(),
     tileCount: [1, 1],
     currentPlayer: 1,
     currentMoves: 1,
@@ -19,13 +19,13 @@ class Game extends React.Component {
   };
 
   // Initialize basic tile properties
-  initializeTiles(height, width) {
+  initializeTiles() {
     let data = [];
 
     // Create default tile data
-    for (let i = 0; i < height; i++) {
+    for (let i = 0; i < 5; i++) {
       data.push([]);
-      for (let j = 0; j < width; j++) {
+      for (let j = 0; j < 5; j++) {
         data[i][j] = {
           x: i,
           y: j,
@@ -49,6 +49,8 @@ class Game extends React.Component {
     data[1][1].isUnwallable = true;
     data[2][2].isUnwallable = true;
     data[3][3].isUnwallable = true;
+    // Set wall menu tiles (used by game-wall-menu.component)
+
     // Return
     return data;
   }
@@ -126,7 +128,7 @@ class Game extends React.Component {
   // Restart board (reset to initial state)
   handleBoardRestart = () => {
     this.setState({
-      tiles: this.initializeTiles(5, 5),
+      tiles: this.initializeTiles(),
       currentPlayer: 1,
       currentMoves: 1,
       nextMoves: [2, 2],

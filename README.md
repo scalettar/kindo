@@ -1,4 +1,5 @@
-TODO LIST
+TODO LIST 
+(Will be replaced with a more comprehensive readme once core functionality is implemented)
 
 ## Gameplay
 
@@ -17,12 +18,12 @@ TODO LIST
 * ~~Add tile played on last turn overlay for tiles~~
 * Add player 1 and player 2 icons and make it clearer whose turn it is (highlight icons)
 * ~~Add move counter pips beneath player icons instead of having numbers~~
+* Convert to horizontal layout (game-players, board render, game-walls)
 
 ## Refactoring
 
 * ~~Implement better theming solution~~
 * ~~Consolidate theme selection to theme.styles~~
-* Handle state with redux
 
 ## Later Features
 
@@ -34,4 +35,4 @@ TODO LIST
 
 ## Known Issues
 
-* Game board is not centered (extra space to right)
+* ~~Game board is not centered (extra space to right)~~
