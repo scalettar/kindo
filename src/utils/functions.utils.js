@@ -7,6 +7,10 @@ export const changeOwnership = (tiles, connected, currentPlayer, otherPlayer) =>
                 if (!connected.includes(i * 5 + j)) {
                     tiles[i][j].owner = currentPlayer;
                     tiles[i][j].playedLast = false;
+                    tiles[i][j].hasWallN = false;
+                    tiles[i][j].hasWallE = false;
+                    tiles[i][j].hasWallS = false;
+                    tiles[i][j].hasWallW = false;
                 }
             }
         }

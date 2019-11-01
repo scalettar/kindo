@@ -9,7 +9,7 @@ import { BackgroundContainer, GameContainer, GameAreaContainer } from "./game.st
 
 class Game extends React.Component {
   state = {
-    theme: "kindo",
+    theme: "default",
     tiles: this.initializeTiles(),
     tileCount: [1, 1],
     currentPlayer: 1,
@@ -70,10 +70,13 @@ class Game extends React.Component {
     }
     // Perform updates
     if (updatedTiles[x][y].owner === currentPlayer) {
+      // If select tile owned by self
       // !!! TODO !!!
-      // After player clicks on tile, they can press one of 4 keys.
-      // Each key corresponds to a direction to place a wall
+      // If player clicks on own tile, place the currently selected wall
+      // in the wall menu on that tile and subtract a move.
+      // If no wall tile is selected, nothing happens.
     } else if (updatedTiles[x][y].owner === 0) {
+      // If select unowned tile
       if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
@@ -82,11 +85,16 @@ class Game extends React.Component {
       }
       if (currentPlayer === 1);
     } else {
+      // If select tile owned by opponent
       if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
         if (updatedTiles[x][y].playedLast && updatedNextMoves[otherPlayer - 1] < 4)
           updatedNextMoves[otherPlayer - 1]++;
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
+        updatedTiles[x][y].hasWallN = false;
+        updatedTiles[x][y].hasWallE = false;
+        updatedTiles[x][y].hasWallS = false;
+        updatedTiles[x][y].hasWallW = false;
         updatedCurrentMoves--;
         updatedTileCount[currentPlayer - 1]++;
         updatedTileCount[otherPlayer - 1]--;
@@ -171,7 +179,7 @@ class Game extends React.Component {
           <GamePlayers
             theme={this.state.theme}
             currentPlayer={this.state.currentPlayer}
-            currentMoves={this.state.currentMoves} 
+            currentMoves={this.state.currentMoves}
             nextMoves={this.state.nextMoves}
           />
           <GameContainer>{this.displayBoard(this.state.tiles)}</GameContainer>
