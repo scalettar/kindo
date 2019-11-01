@@ -14,6 +14,5 @@ export const PipContainer = styled.div`
   width: 13px;
   height: 13px;
   border-radius: 2px;
-  background-color: black;
   ${getPipStyles}
 `;

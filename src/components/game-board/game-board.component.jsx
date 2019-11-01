@@ -9,7 +9,7 @@ import { BackgroundContainer, GameBoardContainer } from "./game-board.styles";
 
 class GameBoard extends React.Component {
   state = {
-    theme: "kindoNight",
+    theme: "kindo",
     tiles: this.initializeTiles(5, 5),
     tileCount: [1, 1],
     currentPlayer: 1,

@@ -11,10 +11,10 @@ TODO LIST
 
 ## Visual
 
-* Add wall image overlay for tiles
-* Add king image overlay for tiles
+* ~~Add wall image overlay for tiles~~
+* ~~Add king image overlay for tiles~~
 * Add unwallable image overlay for tiles
-* Add tile played on last turn overlay for tiles
+* ~~Add tile played on last turn overlay for tiles~~
 * Add player 1 and player 2 icons and make it clearer whose turn it is (highlight icons)
 * ~~Add move counter pips beneath player icons instead of having numbers~~
 
@@ -32,6 +32,6 @@ TODO LIST
 * Implement user profiles
 * Add AI
 
-## Bugs
+## Known Issues
 
 * Game board is not centered (extra space to right)

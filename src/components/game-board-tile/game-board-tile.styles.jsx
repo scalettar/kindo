@@ -8,12 +8,21 @@ const getTileStyles = props => {
   else return getNeutral(props.theme);
 };
 
+export const PlayedLastContainer = styled.div`
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  background-color: black;
+  opacity: 15%;
+`;
+
 export const TileContainer = styled.button`
   width: 90px;
   height: 90px;
   border-radius: 5px;
-  color: #fafafa;
   border: none;
+  display: flex;
+  justify-content: center;
   &:focus {
     outline: none;
   }
@@ -21,4 +30,13 @@ export const TileContainer = styled.button`
     opacity: 0.9;
   }
   ${getTileStyles}
+`;
+
+// TODO: Make unwallable marker persist even when tile has lastPlayed property.
+// Make unwallable marker look the way it should.
+export const UnwallableContainer = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  background-color:blue;
 `;
