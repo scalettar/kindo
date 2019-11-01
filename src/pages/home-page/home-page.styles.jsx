@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const GameBoardContainer = styled.div`
+export const GameContainer = styled.div`
   border: 3px solid black;
   /* height: 80vh;
   width: 80vw; */

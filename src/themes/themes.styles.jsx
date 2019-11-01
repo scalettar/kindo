@@ -13,7 +13,7 @@ const kindoEmpty = css`
 const kindoNeutral = css`
   background-color: #f0e7df;
 `;
-const kindoNeutralDark = css`
+const kindoShadow = css`
   background-color: #e1d4ca;
 `;
 const kindoP1 = css`
@@ -23,23 +23,23 @@ const kindoP2 = css`
   background-color: #ffb473;
 `;
 
-// THEME: kindoNight
-const kindoNightBackground = css`
+// THEME: kindoDark
+const kindoDarkBackground = css`
   background-color: #444444;
 `;
-const kindoNightEmpty = css`
+const kindoDarkEmpty = css`
   box-shadow: 0 0 0 2px #3a3a3a inset;
 `;
-const kindoNightNeutral = css`
+const kindoDarkNeutral = css`
   background-color: #4d4d4d;
 `;
-const kindoNightNeutralDark = css`
+const kindoDarkShadow = css`
   background-color: #3a3a3a;
 `;
-const kindoNightP1 = css`
+const kindoDarkP1 = css`
   background-color: #ff6766;
 `;
-const kindoNightP2 = css`
+const kindoDarkP2 = css`
   background-color: #4db4ff;
 `;
 
@@ -53,7 +53,7 @@ const caliEmpty = css`
 const caliNeutral = css`
   background-color: #bd8a5e;
 `;
-const caliNeutralDark = css`
+const caliShadow = css`
   background-color: #584528;
 `;
 const caliP1 = css`
@@ -73,7 +73,7 @@ const cyberEmpty = css`
 const cyberNeutral = css`
   background-color: #313639;
 `;
-const cyberNeutralDark = css`
+const cyberShadow = css`
   background-color: #ffffff;
 `;
 const cyberP1 = css`
@@ -87,41 +87,41 @@ const cyberP2 = css`
 export const getBackground = theme => {
   if (theme === "cyber") return cyberBackground;
   else if (theme === "cali") return caliBackground;
-  else if (theme === "kindoNight") return kindoNightBackground;
+  else if (theme === "kindoDark") return kindoDarkBackground;
   else return kindoBackground;
 };
 
 export const getEmpty = theme => {
   if (theme === "cyber") return cyberEmpty;
   else if (theme === "cali") return caliEmpty;
-  else if (theme === "kindoNight") return kindoNightEmpty;
+  else if (theme === "kindoDark") return kindoDarkEmpty;
   else return kindoEmpty;
 };
 
 export const getNeutral = theme => {
   if (theme === "cyber") return cyberNeutral;
   else if (theme === "cali") return caliNeutral;
-  else if (theme === "kindoNight") return kindoNightNeutral;
+  else if (theme === "kindoDark") return kindoDarkNeutral;
   else return kindoNeutral;
 };
 
-export const getNeutralDark = theme => {
-  if (theme === "cyber") return cyberNeutralDark;
-  else if(theme === "cali") return caliNeutralDark;
-  else if (theme === "kindoNight") return kindoNightNeutralDark;
-  else return kindoNeutralDark;
+export const getShadow = theme => {
+  if (theme === "cyber") return cyberShadow;
+  else if (theme === "cali") return caliShadow;
+  else if (theme === "kindoDark") return kindoDarkShadow;
+  else return kindoShadow;
 };
 
 export const getP1 = theme => {
   if (theme === "cyber") return cyberP1;
   else if (theme === "cali") return caliP1;
-  else if (theme === "kindoNight") return kindoNightP1;
+  else if (theme === "kindoDark") return kindoDarkP1;
   else return kindoP1;
 };
 
 export const getP2 = theme => {
   if (theme === "cyber") return cyberP2;
   else if (theme === "cali") return caliP2;
-  else if (theme === "kindoNight") return kindoNightP2;
+  else if (theme === "kindoDark") return kindoDarkP2;
   else return kindoP2;
 };

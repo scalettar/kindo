@@ -32,6 +32,6 @@ export const PlayersContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  padding: 10px;
+  padding: 0px 0px 10px 0px;
   width: 500px;
 `;

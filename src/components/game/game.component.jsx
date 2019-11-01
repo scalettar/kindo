@@ -1,13 +1,13 @@
 import React from "react";
 
-import GameBoardTile from "../game-board-tile/game-board-tile.component";
-import GameBoardPlayers from "../game-board-players/game-board-players.component";
+import GameTile from "../game-tile/game-tile.component";
+import GamePlayers from "../game-players/game-players.component";
 
 import * as utils from "../../utils/functions.utils";
 
-import { BackgroundContainer, GameBoardContainer } from "./game-board.styles";
+import { BackgroundContainer, GameContainer, GameAreaContainer } from "./game.styles";
 
-class GameBoard extends React.Component {
+class Game extends React.Component {
   state = {
     theme: "kindo",
     tiles: this.initializeTiles(5, 5),
@@ -141,7 +141,7 @@ class GameBoard extends React.Component {
       return row.map(data => {
         return (
           <div key={data.x * row.length + data.y}>
-            <GameBoardTile
+            <GameTile
               onClick={() => this.handleTileClick(data.x, data.y)}
               data={data}
               theme={this.state.theme}
@@ -153,41 +153,35 @@ class GameBoard extends React.Component {
   }
 
   render() {
-    // Destructure common properties
-    const { tiles } = this.state;
     // Get winner if exists
-    const winner = utils.checkWinner(tiles);
+    const winner = utils.checkWinner(this.state.tiles);
     // Status message
     let status;
     if (winner) {
-      // Winner exists
       status = `${winner} wins!`;
     } else {
-      // No winner yet, next turn
       status = `${this.state.currentPlayer === 1 ? "P1" : "P2"}'s turn.`;
     }
     return (
       <BackgroundContainer theme={this.state.theme}>
-        <div className="board-wrapper">
-          <div className="board">
-            <h2 className="board-heading">{status}</h2>
-            <GameBoardPlayers
-              theme={this.state.theme}
-              currentPlayer={this.state.currentPlayer}
-              currentMoves={this.state.currentMoves}
-              nextMoves={this.state.nextMoves}
-            />
-            <GameBoardContainer>{this.displayBoard(this.state.tiles)}</GameBoardContainer>
-          </div>
-          {winner && (
-            <button className="new-game-button" onClick={this.handleBoardRestart}>
-              New Game
-            </button>
-          )}
-        </div>
+        <GameAreaContainer>
+          <h2>{status}</h2>
+          <GamePlayers
+            theme={this.state.theme}
+            currentPlayer={this.state.currentPlayer}
+            currentMoves={this.state.currentMoves} 
+            nextMoves={this.state.nextMoves}
+          />
+          <GameContainer>{this.displayBoard(this.state.tiles)}</GameContainer>
+        </GameAreaContainer>
+        {winner && (
+          <button className="new-game-button" onClick={this.handleBoardRestart}>
+            New Game
+          </button>
+        )}
       </BackgroundContainer>
     );
   }
 }
 
-export default GameBoard;
+export default Game;

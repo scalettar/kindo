@@ -7,9 +7,9 @@ import {
   PipsContainer,
   PlayerContainer,
   PlayersContainer
-} from "./game-board-players.styles";
+} from "./game-players.styles";
 
-class GameBoardPlayers extends React.Component {
+class GamePlayers extends React.Component {
   getPipColors(player, pipNumber) {
     if (player === this.props.currentPlayer) {
       if (this.props.currentMoves >= pipNumber) return "color";
@@ -48,4 +48,4 @@ class GameBoardPlayers extends React.Component {
   }
 }
 
-export default GameBoardPlayers;
+export default GamePlayers;

@@ -2,15 +2,15 @@
 
 import React from "react";
 
-import GameBoard from "../../components/game-board/game-board.component";
+import Game from "../../components/game-board/game-board.component";
 
-import { GameBoardContainer, HomePageContainer } from "./home-page.styles";
+import { GameContainer, HomePageContainer } from "./home-page.styles";
 
 const HomePage = () => (
   <HomePageContainer>
-    <GameBoardContainer>
-      <GameBoard />
-    </GameBoardContainer>
+    <GameContainer>
+      <Game />
+    </GameContainer>
   </HomePageContainer>
 );
 

@@ -16,7 +16,13 @@ export const BackgroundContainer = styled.div`
   ${getBackgroundStyles}
 `;
 
-export const GameBoardContainer = styled.div`
+export const GameAreaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const GameContainer = styled.div`
   width: 500px;
   height: 500px;
   display: flex;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PlayedLastContainer, TileContainer } from "./game-board-tile.styles";
+import { PlayedLastContainer, TileContainer } from "./game-tile.styles";
 
 import crown from "./crown.png";
 import wallN from "./wallN.png";
@@ -8,7 +8,7 @@ import wallE from "./wallE.png";
 import wallS from "./wallS.png";
 import wallW from "./wallW.png";
 
-class GameBoardTile extends React.Component {
+class GameTile extends React.Component {
   getValue() {
     const { data } = this.props;
 
@@ -36,4 +36,4 @@ class GameBoardTile extends React.Component {
   }
 }
 
-export default GameBoardTile;
+export default GameTile;
