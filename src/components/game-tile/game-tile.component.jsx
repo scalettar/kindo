@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PlayedLastContainer, TileContainer } from "./game-tile.styles";
+import { PlayedLastContainer, TileContainer, UnwallableContainer } from "./game-tile.styles";
 
 import crown from "./crown.png";
 import wallN from "./wallN.png";
@@ -14,6 +14,8 @@ class GameTile extends React.Component {
 
     if (data.isKing)
       return <img style={{ width: "90px", height: "90px" }} alt="crown" src={crown} />;
+    else if (data.isUnwallable)
+      return <UnwallableContainer></UnwallableContainer>;
     else if (data.hasWallN)
       return <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallN} />;
     else if (data.hasWallE)
@@ -22,15 +24,21 @@ class GameTile extends React.Component {
       return <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallS} />;
     else if (data.hasWallW)
       return <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallW} />;
-    if (data.playedLast) return <PlayedLastContainer></PlayedLastContainer>;
-    // if (data.isUnwallable) return <UnwallableContainer></UnwallableContainer>;
     else return null;
   }
+
+  getPlayedLast() {
+    if(this.props.data.playedLast){
+      return <PlayedLastContainer></PlayedLastContainer>;
+    }
+  }
+
   render() {
     const { data, theme, onClick } = this.props;
     return (
       <TileContainer theme={theme} owner={data.owner} onClick={onClick}>
         {this.getValue()}
+        {this.getPlayedLast()}
       </TileContainer>
     );
   }

@@ -14,6 +14,8 @@ export const PlayedLastContainer = styled.div`
   border-radius: 2px;
   background-color: black;
   opacity: 15%;
+  position: absolute;
+  z-index: 2;
 `;
 
 export const TileContainer = styled.button`
@@ -23,6 +25,7 @@ export const TileContainer = styled.button`
   border: none;
   display: flex;
   justify-content: center;
+  align-items: center;
   &:focus {
     outline: none;
   }
@@ -33,9 +36,7 @@ export const TileContainer = styled.button`
 `;
 
 // TODO: 
-// I. Make unwallable marker persist even when tile has lastPlayed property.
-// Solution: ???
-// II. Make unwallable marker look the way it should.
+// Make unwallable marker look the way it should.
 // Solution:
 // a. In vectr, use overlapping shapes to make symbol
 // b. Highlight all components and combine with the Add button
@@ -46,4 +47,6 @@ export const UnwallableContainer = styled.div`
   height: 20px;
   border-radius: 2px;
   background-color:blue;
+  position: absolute;
+  z-index: 1;
 `;
