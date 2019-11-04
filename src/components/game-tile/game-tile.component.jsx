@@ -2,14 +2,14 @@ import React from "react";
 
 import { PlayedLastContainer, TileContainer, UnwallableContainer } from "./game-tile.styles";
 
-import crown from "./crown.png";
-import wallN from "./wallN.png";
-import wallE from "./wallE.png";
-import wallS from "./wallS.png";
-import wallW from "./wallW.png";
+import crown from "../../assets/crown.png";
+import wallN from "../../assets/wallN.png";
+import wallE from "../../assets/wallE.png";
+import wallS from "../../assets/wallS.png";
+import wallW from "../../assets/wallW.png";
 
 class GameTile extends React.Component {
-  getValue() {
+  getWallValue() {
     const { data } = this.props;
 
     if (data.isKing)
@@ -28,16 +28,18 @@ class GameTile extends React.Component {
   }
 
   getPlayedLast() {
-    if(this.props.data.playedLast){
+    const { data } = this.props;
+    if(data.playedLast && !data.isKing){
       return <PlayedLastContainer></PlayedLastContainer>;
     }
+    return null;
   }
 
   render() {
     const { data, theme, onClick } = this.props;
     return (
       <TileContainer theme={theme} owner={data.owner} onClick={onClick}>
-        {this.getValue()}
+        {this.getWallValue()}
         {this.getPlayedLast()}
       </TileContainer>
     );

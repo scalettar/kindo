@@ -54,7 +54,7 @@ export const checkConnected = (tiles, otherPlayer) => {
     }
 
     return connected;
-}
+}    
 
 // Check if a player has won and return winner if one exists
 export const checkWinner = (tiles) => {

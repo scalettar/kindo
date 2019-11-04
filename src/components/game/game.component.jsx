@@ -5,7 +5,18 @@ import GamePlayers from "../game-players/game-players.component";
 
 import * as utils from "../../utils/functions.utils";
 
-import { BackgroundContainer, GameContainer, GameAreaContainer } from "./game.styles";
+import {
+  BackgroundContainer,
+  GameContainer,
+  GameAreaContainer,
+  GameWallMenuContainer,
+  WallMenuButtonContainer
+} from "./game.styles";
+
+import wallN from "../../assets/wallN.png";
+import wallE from "../../assets/wallE.png";
+import wallS from "../../assets/wallS.png";
+import wallW from "../../assets/wallW.png";
 
 class Game extends React.Component {
   state = {
@@ -15,6 +26,7 @@ class Game extends React.Component {
     currentPlayer: 1,
     currentMoves: 1,
     nextMoves: [2, 2],
+    wallSelection: "None",
     winner: 0
   };
 
@@ -49,8 +61,6 @@ class Game extends React.Component {
     data[1][1].isUnwallable = true;
     data[2][2].isUnwallable = true;
     data[3][3].isUnwallable = true;
-    // Set wall menu tiles (used by game-wall-menu.component)
-
     // Return
     return data;
   }
@@ -70,13 +80,34 @@ class Game extends React.Component {
     }
     // Perform updates
     if (updatedTiles[x][y].owner === currentPlayer) {
-      // If select tile owned by self
-      // !!! TODO !!!
-      // If player clicks on own tile, place the currently selected wall
-      // in the wall menu on that tile and subtract a move.
-      // If no wall tile is selected, nothing happens.
+      // If currentPlayer selects tile owned by self
+      // Place the currently selected wall in the wall menu unless tile isUnwallable
+      if (this.state.wallSelection !== "None" && !updatedTiles[x][y].isUnwallable) {
+        updatedCurrentMoves--;
+        if (this.state.wallSelection === "N") {
+          updatedTiles[x][y].hasWallN = true;
+          updatedTiles[x][y].hasWallE = false;
+          updatedTiles[x][y].hasWallS = false;
+          updatedTiles[x][y].hasWallW = false;
+        } else if (this.state.wallSelection === "E") {
+          updatedTiles[x][y].hasWallN = false;
+          updatedTiles[x][y].hasWallE = true;
+          updatedTiles[x][y].hasWallS = false;
+          updatedTiles[x][y].hasWallW = false;
+        } else if (this.state.wallSelection === "S") {
+          updatedTiles[x][y].hasWallN = false;
+          updatedTiles[x][y].hasWallE = false;
+          updatedTiles[x][y].hasWallS = true;
+          updatedTiles[x][y].hasWallW = false;
+        } else if (this.state.wallSelection === "W") {
+          updatedTiles[x][y].hasWallN = false;
+          updatedTiles[x][y].hasWallE = false;
+          updatedTiles[x][y].hasWallS = false;
+          updatedTiles[x][y].hasWallW = true;
+        }
+      }
     } else if (updatedTiles[x][y].owner === 0) {
-      // If select unowned tile
+      // If currentPlayer selects unowned tile
       if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
         updatedTiles[x][y].owner = currentPlayer;
         updatedTiles[x][y].playedLast = true;
@@ -85,7 +116,7 @@ class Game extends React.Component {
       }
       if (currentPlayer === 1);
     } else {
-      // If select tile owned by opponent
+      // If currentPlayer selects tile owned by opponent
       if (utils.checkNeighbors(updatedTiles, x, y, currentPlayer)) {
         if (updatedTiles[x][y].playedLast && updatedNextMoves[otherPlayer - 1] < 4)
           updatedNextMoves[otherPlayer - 1]++;
@@ -98,21 +129,21 @@ class Game extends React.Component {
         updatedCurrentMoves--;
         updatedTileCount[currentPlayer - 1]++;
         updatedTileCount[otherPlayer - 1]--;
+        // Check if any tiles were detached from opponent's king and update accordingly
+        let otherPlayerConnectedTiles = utils.checkConnected(updatedTiles, otherPlayer);
+        if (otherPlayerConnectedTiles.length < updatedTileCount[otherPlayer - 1]) {
+          updatedTiles = utils.changeOwnership(
+            updatedTiles,
+            otherPlayerConnectedTiles,
+            currentPlayer,
+            otherPlayer
+          );
+          if (updatedNextMoves[currentPlayer - 1] < 4) updatedNextMoves[currentPlayer - 1]++;
+          let numSwapped = updatedTileCount[otherPlayer - 1] - otherPlayerConnectedTiles.length;
+          updatedTileCount[currentPlayer - 1] += numSwapped;
+          updatedTileCount[otherPlayer - 1] -= numSwapped;
+        }
       }
-    }
-    // Check if any tiles detached from king and update accordingly
-    let otherPlayerConnectedTiles = utils.checkConnected(updatedTiles, otherPlayer);
-    if (otherPlayerConnectedTiles.length < updatedTileCount[otherPlayer - 1]) {
-      updatedTiles = utils.changeOwnership(
-        updatedTiles,
-        otherPlayerConnectedTiles,
-        currentPlayer,
-        otherPlayer
-      );
-      if (updatedNextMoves[currentPlayer - 1] < 4) updatedNextMoves[currentPlayer - 1]++;
-      let numSwapped = updatedTileCount[otherPlayer - 1] - otherPlayerConnectedTiles.length;
-      updatedTileCount[currentPlayer - 1] += numSwapped;
-      updatedTileCount[otherPlayer - 1] -= numSwapped;
     }
     // Determine next player
     let nextPlayer = currentPlayer;
@@ -129,9 +160,15 @@ class Game extends React.Component {
       tileCount: updatedTileCount,
       currentPlayer: nextPlayer,
       currentMoves: updatedCurrentMoves,
-      nextMoves: updatedNextMoves
+      nextMoves: updatedNextMoves,
+      wallSelection: "None"
     });
   };
+
+  // Handle wall menu button clicks
+  handleWallMenuButtonClick(wallType) {
+    this.setState({ wallSelection: wallType });
+  }
 
   // Restart board (reset to initial state)
   handleBoardRestart = () => {
@@ -141,6 +178,7 @@ class Game extends React.Component {
       currentMoves: 1,
       nextMoves: [2, 2],
       tileCount: [1, 1],
+      wallSelection: "None",
       winner: 0
     });
   };
@@ -163,6 +201,7 @@ class Game extends React.Component {
   }
 
   render() {
+    const { currentPlayer, theme, wallSelection } = this.state;
     // Get winner if exists
     const winner = utils.checkWinner(this.state.tiles);
     // Status message
@@ -189,6 +228,51 @@ class Game extends React.Component {
             New Game
           </button>
         )}
+        <GameWallMenuContainer>
+          <WallMenuButtonContainer
+            theme={theme}
+            currentPlayer={currentPlayer}
+            wallSelection={wallSelection}
+            wallButtonType="None"
+            onClick={() => this.handleWallMenuButtonClick("None")}
+          ></WallMenuButtonContainer>
+          <WallMenuButtonContainer
+            theme={theme}
+            currentPlayer={currentPlayer}
+            wallSelection={wallSelection}
+            wallButtonType="N"
+            onClick={() => this.handleWallMenuButtonClick("N")}
+          >
+            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallN} />
+          </WallMenuButtonContainer>
+          <WallMenuButtonContainer
+            theme={theme}
+            currentPlayer={currentPlayer}
+            wallSelection={wallSelection}
+            wallButtonType="E"
+            onClick={() => this.handleWallMenuButtonClick("E")}
+          >
+            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallE} />
+          </WallMenuButtonContainer>
+          <WallMenuButtonContainer
+            theme={theme}
+            currentPlayer={currentPlayer}
+            wallSelection={wallSelection}
+            wallButtonType="S"
+            onClick={() => this.handleWallMenuButtonClick("S")}
+          >
+            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallS} />
+          </WallMenuButtonContainer>
+          <WallMenuButtonContainer
+            theme={theme}
+            currentPlayer={currentPlayer}
+            wallSelection={wallSelection}
+            wallButtonType="W"
+            onClick={() => this.handleWallMenuButtonClick("W")}
+          >
+            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallW} />
+          </WallMenuButtonContainer>
+        </GameWallMenuContainer>
       </BackgroundContainer>
     );
   }

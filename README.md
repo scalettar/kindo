@@ -5,7 +5,7 @@ TODO LIST
 
 * ~~Transfer ownership of tiles when they are isolated from king~~
 * ~~Reset tile played on last turn property (playedLast) at start of that player's next turn~~
-* Add ability to place walls
+* ~~Add ability to place walls~~
 * ~~Give current player bonus move when isolating enemy tile(s)~~
 * ~~Give opponent bonus move when capturing tile played on their last turn~~
 * Prevent border walling strategy
