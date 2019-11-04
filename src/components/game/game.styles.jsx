@@ -1,4 +1,4 @@
-import styled, {css} from "styled-components";
+import styled, { css } from "styled-components";
 
 import { getBackground, getP1, getP2 } from "../../themes/themes.styles";
 
@@ -16,13 +16,7 @@ export const BackgroundContainer = styled.div`
   ${getBackgroundStyles}
 `;
 
-export const GameAreaContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const GameContainer = styled.div`
+export const BoardContainer = styled.div`
   width: 500px;
   height: 500px;
   display: flex;
@@ -30,6 +24,19 @@ export const GameContainer = styled.div`
   flex-wrap: wrap;
   align-content: space-around;
   justify-content: space-around;
+`;
+
+export const BoardAndWallContainer = styled.div`
+  width: 700px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const GameAreaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const wallSelected = css`
@@ -51,8 +58,8 @@ export const GameWallMenuContainer = styled.div`
   height: 500px;
   width: 100px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 
 export const WallMenuButtonContainer = styled.button`

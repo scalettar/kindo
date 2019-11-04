@@ -7,7 +7,8 @@ import * as utils from "../../utils/functions.utils";
 
 import {
   BackgroundContainer,
-  GameContainer,
+  BoardAndWallContainer,
+  BoardContainer,
   GameAreaContainer,
   GameWallMenuContainer,
   WallMenuButtonContainer
@@ -221,58 +222,60 @@ class Game extends React.Component {
             currentMoves={this.state.currentMoves}
             nextMoves={this.state.nextMoves}
           />
-          <GameContainer>{this.displayBoard(this.state.tiles)}</GameContainer>
+          <BoardAndWallContainer>
+            <BoardContainer>{this.displayBoard(this.state.tiles)}</BoardContainer>
+            <GameWallMenuContainer>
+              <WallMenuButtonContainer
+                theme={theme}
+                currentPlayer={currentPlayer}
+                wallSelection={wallSelection}
+                wallButtonType="None"
+                onClick={() => this.handleWallMenuButtonClick("None")}
+              ></WallMenuButtonContainer>
+              <WallMenuButtonContainer
+                theme={theme}
+                currentPlayer={currentPlayer}
+                wallSelection={wallSelection}
+                wallButtonType="N"
+                onClick={() => this.handleWallMenuButtonClick("N")}
+              >
+                <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallN} />
+              </WallMenuButtonContainer>
+              <WallMenuButtonContainer
+                theme={theme}
+                currentPlayer={currentPlayer}
+                wallSelection={wallSelection}
+                wallButtonType="E"
+                onClick={() => this.handleWallMenuButtonClick("E")}
+              >
+                <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallE} />
+              </WallMenuButtonContainer>
+              <WallMenuButtonContainer
+                theme={theme}
+                currentPlayer={currentPlayer}
+                wallSelection={wallSelection}
+                wallButtonType="S"
+                onClick={() => this.handleWallMenuButtonClick("S")}
+              >
+                <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallS} />
+              </WallMenuButtonContainer>
+              <WallMenuButtonContainer
+                theme={theme}
+                currentPlayer={currentPlayer}
+                wallSelection={wallSelection}
+                wallButtonType="W"
+                onClick={() => this.handleWallMenuButtonClick("W")}
+              >
+                <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallW} />
+              </WallMenuButtonContainer>
+            </GameWallMenuContainer>
+          </BoardAndWallContainer>
         </GameAreaContainer>
         {winner && (
           <button className="new-game-button" onClick={this.handleBoardRestart}>
             New Game
           </button>
         )}
-        <GameWallMenuContainer>
-          <WallMenuButtonContainer
-            theme={theme}
-            currentPlayer={currentPlayer}
-            wallSelection={wallSelection}
-            wallButtonType="None"
-            onClick={() => this.handleWallMenuButtonClick("None")}
-          ></WallMenuButtonContainer>
-          <WallMenuButtonContainer
-            theme={theme}
-            currentPlayer={currentPlayer}
-            wallSelection={wallSelection}
-            wallButtonType="N"
-            onClick={() => this.handleWallMenuButtonClick("N")}
-          >
-            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallN} />
-          </WallMenuButtonContainer>
-          <WallMenuButtonContainer
-            theme={theme}
-            currentPlayer={currentPlayer}
-            wallSelection={wallSelection}
-            wallButtonType="E"
-            onClick={() => this.handleWallMenuButtonClick("E")}
-          >
-            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallE} />
-          </WallMenuButtonContainer>
-          <WallMenuButtonContainer
-            theme={theme}
-            currentPlayer={currentPlayer}
-            wallSelection={wallSelection}
-            wallButtonType="S"
-            onClick={() => this.handleWallMenuButtonClick("S")}
-          >
-            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallS} />
-          </WallMenuButtonContainer>
-          <WallMenuButtonContainer
-            theme={theme}
-            currentPlayer={currentPlayer}
-            wallSelection={wallSelection}
-            wallButtonType="W"
-            onClick={() => this.handleWallMenuButtonClick("W")}
-          >
-            <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallW} />
-          </WallMenuButtonContainer>
-        </GameWallMenuContainer>
       </BackgroundContainer>
     );
   }
