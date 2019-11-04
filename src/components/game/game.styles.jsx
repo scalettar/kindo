@@ -27,7 +27,7 @@ export const BoardContainer = styled.div`
 `;
 
 export const BoardAndWallContainer = styled.div`
-  width: 700px;
+  width: 650px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -39,11 +39,11 @@ export const GameAreaContainer = styled.div`
   align-items: center;
 `;
 
-const wallSelected = css`
-  opacity: 0.7;
-`;
-
 // ==================================WALL MENU=================================
+
+const wallSelected = css`
+  opacity: 0.5;
+`;
 
 const getButtonStyles = props => {
   if (props.currentPlayer === 1) return getP1(props.theme);

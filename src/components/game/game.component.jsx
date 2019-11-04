@@ -201,6 +201,16 @@ class Game extends React.Component {
     });
   }
 
+  // Allow selecting wall from wall menu using keyboard
+  // Attached to BackgroundContainer, need tabIndex to activate
+  onKeyDown = e => {
+    if(e.which === 38 || e.which === 87) this.setState({ wallSelection: "N"});
+    else if(e.which === 39 || e.which === 68) this.setState({ wallSelection: "E"});
+    else if(e.which === 40 || e.which === 83) this.setState({ wallSelection: "S"});
+    else if(e.which === 37 || e.which === 65) this.setState({ wallSelection: "W"});
+    else this.setState({ wallSelection: "None"});
+  }
+
   render() {
     const { currentPlayer, theme, wallSelection } = this.state;
     // Get winner if exists
@@ -212,8 +222,9 @@ class Game extends React.Component {
     } else {
       status = `${this.state.currentPlayer === 1 ? "P1" : "P2"}'s turn.`;
     }
+    console.log(this.state.wallSelection);
     return (
-      <BackgroundContainer theme={this.state.theme}>
+      <BackgroundContainer theme={this.state.theme} onKeyDown={this.onKeyDown} tabIndex="0">
         <GameAreaContainer>
           <h2>{status}</h2>
           <GamePlayers

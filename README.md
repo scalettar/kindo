@@ -8,6 +8,7 @@ TODO LIST
 * ~~Add ability to place walls~~
 * ~~Give current player bonus move when isolating enemy tile(s)~~
 * ~~Give opponent bonus move when capturing tile played on their last turn~~
+* ~~Allow wall menu selection with keyboard~~
 * Prevent border walling strategy
 
 ## Visual
@@ -36,3 +37,4 @@ TODO LIST
 ## Known Issues
 
 * ~~Game board is not centered (extra space to right)~~
+* Wall placement not completely responsive when wall selected with keyboard press
