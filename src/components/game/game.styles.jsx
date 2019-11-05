@@ -74,7 +74,7 @@ export const WallMenuButtonContainer = styled.button`
     outline: none;
   }
   &:hover {
-    opacity: 0.9;
+    opacity: 0.5;
   }
   ${getButtonStyles}
   ${getSelectedStyles}

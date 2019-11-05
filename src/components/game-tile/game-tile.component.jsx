@@ -1,12 +1,13 @@
 import React from "react";
 
-import { PlayedLastContainer, TileContainer, UnwallableContainer } from "./game-tile.styles";
+import { PlayedLastContainer, TileContainer } from "./game-tile.styles";
 
 import crown from "../../assets/crown.png";
 import wallN from "../../assets/wallN.png";
 import wallE from "../../assets/wallE.png";
 import wallS from "../../assets/wallS.png";
 import wallW from "../../assets/wallW.png";
+import unwallable from "../../assets/unwallable.png";
 
 class GameTile extends React.Component {
   getWallValue() {
@@ -15,7 +16,7 @@ class GameTile extends React.Component {
     if (data.isKing)
       return <img style={{ width: "90px", height: "90px" }} alt="crown" src={crown} />;
     else if (data.isUnwallable)
-      return <UnwallableContainer></UnwallableContainer>;
+      return <img style={{ width: "90px", height: "90px" }} alt="crown" src={unwallable} />;
     else if (data.hasWallN)
       return <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallN} />;
     else if (data.hasWallE)

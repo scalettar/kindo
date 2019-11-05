@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
-import { getP1, getP2 } from "../../themes/themes.styles";
+import { getP1, getP2, getNeutral } from "../../themes/themes.styles";
 
 const getAvatarStyles = props => {
-  if (props.player === 1) return getP1(props.theme);
-  else return getP2(props.theme);
+  if (props.player === props.currentPlayer) {
+    if (props.player === 1) return getP1(props.theme);
+    else return getP2(props.theme);
+  } else return getNeutral(props.theme);
 };
 
 export const AvatarContainer = styled.div`

@@ -26,7 +26,7 @@ class GamePlayers extends React.Component {
     return (
       <PlayersContainer>
         <PlayerContainer>
-          <AvatarContainer theme={theme} player={1} />
+          <AvatarContainer theme={theme} player={1} currentPlayer={this.props.currentPlayer} />
           <PipsContainer>
             <GamePip theme={theme} player={1} pipColor={this.getPipColors(1, 1)} />
             <GamePip theme={theme} player={1} pipColor={this.getPipColors(1, 2)} />
@@ -35,7 +35,7 @@ class GamePlayers extends React.Component {
           </PipsContainer>
         </PlayerContainer>
         <PlayerContainer>
-          <AvatarContainer theme={theme} player={2} />
+          <AvatarContainer theme={theme} player={2} currentPlayer={this.props.currentPlayer} />
           <PipsContainer>
             <GamePip theme={theme} player={2} pipColor={this.getPipColors(2, 1)} />
             <GamePip theme={theme} player={2} pipColor={this.getPipColors(2, 2)} />

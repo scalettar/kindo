@@ -203,6 +203,8 @@ class Game extends React.Component {
 
   // Allow selecting wall from wall menu using keyboard
   // Attached to BackgroundContainer, need tabIndex to activate
+  // !!!KNOWN ISSUE!!! Wall placement not always immediately responsive when
+  // wall selected through keyDown
   onKeyDown = e => {
     if(e.which === 38 || e.which === 87) this.setState({ wallSelection: "N"});
     else if(e.which === 39 || e.which === 68) this.setState({ wallSelection: "E"});
@@ -222,7 +224,6 @@ class Game extends React.Component {
     } else {
       status = `${this.state.currentPlayer === 1 ? "P1" : "P2"}'s turn.`;
     }
-    console.log(this.state.wallSelection);
     return (
       <BackgroundContainer theme={this.state.theme} onKeyDown={this.onKeyDown} tabIndex="0">
         <GameAreaContainer>

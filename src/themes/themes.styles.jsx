@@ -23,6 +23,26 @@ const kindoP2 = css`
   background-color: #ffb473;
 `;
 
+// THEME: kindoLight
+const kindoLightBackground = css`
+  background-color: #fafafa;
+`;
+const kindoLightEmpty = css`
+  box-shadow: 0 0 0 2px #ebebeb inset;
+`;
+const kindoLightNeutral = css`
+  background-color: #dbdbdb;
+`;
+const kindoLightShadow = css`
+  background-color: #ebebeb;
+`;
+const kindoLightP1 = css`
+  background-color: #5596f2;
+`;
+const kindoLightP2 = css`
+  background-color: #ff6699;
+`;
+
 // THEME: kindoDark
 const kindoDarkBackground = css`
   background-color: #444444;
@@ -88,6 +108,7 @@ export const getBackground = theme => {
   if (theme === "cyber") return cyberBackground;
   else if (theme === "cali") return caliBackground;
   else if (theme === "kindoDark") return kindoDarkBackground;
+  else if (theme === "kindoLight") return kindoLightBackground;
   else return kindoBackground;
 };
 
@@ -95,6 +116,7 @@ export const getEmpty = theme => {
   if (theme === "cyber") return cyberEmpty;
   else if (theme === "cali") return caliEmpty;
   else if (theme === "kindoDark") return kindoDarkEmpty;
+  else if (theme === "kindoLight") return kindoLightEmpty;
   else return kindoEmpty;
 };
 
@@ -102,6 +124,7 @@ export const getNeutral = theme => {
   if (theme === "cyber") return cyberNeutral;
   else if (theme === "cali") return caliNeutral;
   else if (theme === "kindoDark") return kindoDarkNeutral;
+  else if (theme === "kindoLight") return kindoLightNeutral;
   else return kindoNeutral;
 };
 
@@ -109,6 +132,7 @@ export const getShadow = theme => {
   if (theme === "cyber") return cyberShadow;
   else if (theme === "cali") return caliShadow;
   else if (theme === "kindoDark") return kindoDarkShadow;
+  else if (theme === "kindoLight") return kindoLightShadow;
   else return kindoShadow;
 };
 
@@ -116,6 +140,7 @@ export const getP1 = theme => {
   if (theme === "cyber") return cyberP1;
   else if (theme === "cali") return caliP1;
   else if (theme === "kindoDark") return kindoDarkP1;
+  else if (theme === "kindoLight") return kindoLightP1;
   else return kindoP1;
 };
 
@@ -123,5 +148,6 @@ export const getP2 = theme => {
   if (theme === "cyber") return cyberP2;
   else if (theme === "cali") return caliP2;
   else if (theme === "kindoDark") return kindoDarkP2;
+  else if (theme === "kindoLight") return kindoLightP2;
   else return kindoP2;
 };
