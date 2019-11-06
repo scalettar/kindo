@@ -30,7 +30,7 @@ class GameTile extends React.Component {
 
   getPlayedLast() {
     const { data } = this.props;
-    if(data.playedLast && !data.isKing){
+    if (data.playedLast && !data.isKing) {
       return <PlayedLastContainer></PlayedLastContainer>;
     }
     return null;

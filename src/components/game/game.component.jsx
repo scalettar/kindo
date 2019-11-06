@@ -21,7 +21,7 @@ import wallW from "../../assets/wallW.png";
 
 class Game extends React.Component {
   state = {
-    theme: "default",
+    theme: "kindoLight",
     tiles: this.initializeTiles(),
     tileCount: [1, 1],
     currentPlayer: 1,
@@ -203,15 +203,13 @@ class Game extends React.Component {
 
   // Allow selecting wall from wall menu using keyboard
   // Attached to BackgroundContainer, need tabIndex to activate
-  // !!!KNOWN ISSUE!!! Wall placement not always immediately responsive when
-  // wall selected through keyDown
   onKeyDown = e => {
-    if(e.which === 38 || e.which === 87) this.setState({ wallSelection: "N"});
-    else if(e.which === 39 || e.which === 68) this.setState({ wallSelection: "E"});
-    else if(e.which === 40 || e.which === 83) this.setState({ wallSelection: "S"});
-    else if(e.which === 37 || e.which === 65) this.setState({ wallSelection: "W"});
-    else this.setState({ wallSelection: "None"});
-  }
+    if (e.which === 38 || e.which === 87) this.setState({ wallSelection: "N" });
+    else if (e.which === 39 || e.which === 68) this.setState({ wallSelection: "E" });
+    else if (e.which === 40 || e.which === 83) this.setState({ wallSelection: "S" });
+    else if (e.which === 37 || e.which === 65) this.setState({ wallSelection: "W" });
+    else this.setState({ wallSelection: "None" });
+  };
 
   render() {
     const { currentPlayer, theme, wallSelection } = this.state;

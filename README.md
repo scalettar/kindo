@@ -37,4 +37,4 @@ TODO LIST
 ## Known Issues
 
 * ~~Game board is not centered (extra space to right)~~
-* Wall placement not completely responsive when wall selected with keyboard press
+  
