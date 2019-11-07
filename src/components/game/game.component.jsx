@@ -84,23 +84,26 @@ class Game extends React.Component {
       // If currentPlayer selects tile owned by self
       // Place the currently selected wall in the wall menu unless tile isUnwallable
       if (this.state.wallSelection !== "None" && !updatedTiles[x][y].isUnwallable) {
-        updatedCurrentMoves--;
-        if (this.state.wallSelection === "N") {
+        if (this.state.wallSelection === "N" && !updatedTiles[x][y].hasWallN) {
+          updatedCurrentMoves--;
           updatedTiles[x][y].hasWallN = true;
           updatedTiles[x][y].hasWallE = false;
           updatedTiles[x][y].hasWallS = false;
           updatedTiles[x][y].hasWallW = false;
-        } else if (this.state.wallSelection === "E") {
+        } else if (this.state.wallSelection === "E" && !updatedTiles[x][y].hasWallE) {
+          updatedCurrentMoves--;
           updatedTiles[x][y].hasWallN = false;
           updatedTiles[x][y].hasWallE = true;
           updatedTiles[x][y].hasWallS = false;
           updatedTiles[x][y].hasWallW = false;
-        } else if (this.state.wallSelection === "S") {
+        } else if (this.state.wallSelection === "S" && !updatedTiles[x][y].hasWallS) {
+          updatedCurrentMoves--;
           updatedTiles[x][y].hasWallN = false;
           updatedTiles[x][y].hasWallE = false;
           updatedTiles[x][y].hasWallS = true;
           updatedTiles[x][y].hasWallW = false;
-        } else if (this.state.wallSelection === "W") {
+        } else if (this.state.wallSelection === "W" && !updatedTiles[x][y].hasWallW) {
+          updatedCurrentMoves--;
           updatedTiles[x][y].hasWallN = false;
           updatedTiles[x][y].hasWallE = false;
           updatedTiles[x][y].hasWallS = false;
