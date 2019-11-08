@@ -1,16 +1,22 @@
 import styled, { css } from "styled-components";
 
-import { getBackground, getP1, getP2 } from "../../themes/themes.styles";
+import { getBackground, getNeutral, getP1, getP2 } from "../../themes/themes.styles";
 
 const getBackgroundStyles = props => {
   return getBackground(props.theme);
 };
 
+const getButtonStyles = props => {
+  if(props.winner===1) return getP1(props.theme);
+  else if (props.winner===2) return getP2(props.theme);
+  else return getNeutral(props.theme);
+}
+
 export const BackgroundContainer = styled.div`
   color: grey;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
   width: 100vw;
   height: 100vh;
   ${getBackgroundStyles}
@@ -39,13 +45,24 @@ export const GameAreaContainer = styled.div`
   align-items: center;
 `;
 
+export const NewGameButtonContainer = styled.button`
+  margin: 15px;
+  border: none;
+  border-radius: 5px;
+  width: 150px;
+  height: 40px;
+  font-size: 20px;
+  color: white;
+  ${getButtonStyles}
+`;
+
 // ==================================WALL MENU=================================
 
 const wallSelected = css`
   opacity: 0.5;
 `;
 
-const getButtonStyles = props => {
+const getWallMenuTileStyles = props => {
   if (props.currentPlayer === 1) return getP1(props.theme);
   else return getP2(props.theme);
 };
@@ -62,7 +79,7 @@ export const GameWallMenuContainer = styled.div`
   justify-content: space-around;
 `;
 
-export const WallMenuButtonContainer = styled.button`
+export const WallMenuTileContainer = styled.button`
   width: 90px;
   height: 90px;
   border-radius: 5px;
@@ -76,6 +93,6 @@ export const WallMenuButtonContainer = styled.button`
   &:hover {
     opacity: 0.5;
   }
-  ${getButtonStyles}
+  ${getWallMenuTileStyles}
   ${getSelectedStyles}
 `;

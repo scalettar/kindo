@@ -58,8 +58,8 @@ export const checkConnected = (tiles, otherPlayer) => {
 
 // Check if a player has won and return winner if one exists
 export const checkWinner = (tiles) => {
-    if (tiles[0][4].owner === 1) return "P1";
-    if (tiles[4][0].owner === 2) return "P2";
+    if (tiles[0][4].owner === 1) return 1;
+    if (tiles[4][0].owner === 2) return 2;
 
     return null;
 };

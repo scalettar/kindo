@@ -11,7 +11,8 @@ import {
   BoardContainer,
   GameAreaContainer,
   GameWallMenuContainer,
-  WallMenuButtonContainer
+  NewGameButtonContainer,
+  WallMenuTileContainer
 } from "./game.styles";
 
 import wallN from "../../assets/wallN.png";
@@ -220,17 +221,9 @@ class Game extends React.Component {
     const { currentPlayer, theme, wallSelection } = this.state;
     // Get winner if exists
     const winner = utils.checkWinner(this.state.tiles);
-    // Status message
-    let status;
-    if (winner) {
-      status = `${winner} wins!`;
-    } else {
-      status = `${this.state.currentPlayer === 1 ? "P1" : "P2"}'s turn.`;
-    }
     return (
       <BackgroundContainer theme={this.state.theme} onKeyDown={this.onKeyDown} tabIndex="0">
         <GameAreaContainer>
-          <h2>{status}</h2>
           <GamePlayers
             theme={this.state.theme}
             currentPlayer={this.state.currentPlayer}
@@ -240,14 +233,14 @@ class Game extends React.Component {
           <BoardAndWallContainer>
             <BoardContainer>{this.displayBoard(this.state.tiles)}</BoardContainer>
             <GameWallMenuContainer>
-              <WallMenuButtonContainer
+              <WallMenuTileContainer
                 theme={theme}
                 currentPlayer={currentPlayer}
                 wallSelection={wallSelection}
                 wallButtonType="None"
                 onClick={() => this.handleWallMenuButtonClick("None")}
-              ></WallMenuButtonContainer>
-              <WallMenuButtonContainer
+              ></WallMenuTileContainer>
+              <WallMenuTileContainer
                 theme={theme}
                 currentPlayer={currentPlayer}
                 wallSelection={wallSelection}
@@ -255,8 +248,8 @@ class Game extends React.Component {
                 onClick={() => this.handleWallMenuButtonClick("N")}
               >
                 <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallN} />
-              </WallMenuButtonContainer>
-              <WallMenuButtonContainer
+              </WallMenuTileContainer>
+              <WallMenuTileContainer
                 theme={theme}
                 currentPlayer={currentPlayer}
                 wallSelection={wallSelection}
@@ -264,8 +257,8 @@ class Game extends React.Component {
                 onClick={() => this.handleWallMenuButtonClick("E")}
               >
                 <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallE} />
-              </WallMenuButtonContainer>
-              <WallMenuButtonContainer
+              </WallMenuTileContainer>
+              <WallMenuTileContainer
                 theme={theme}
                 currentPlayer={currentPlayer}
                 wallSelection={wallSelection}
@@ -273,8 +266,8 @@ class Game extends React.Component {
                 onClick={() => this.handleWallMenuButtonClick("S")}
               >
                 <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallS} />
-              </WallMenuButtonContainer>
-              <WallMenuButtonContainer
+              </WallMenuTileContainer>
+              <WallMenuTileContainer
                 theme={theme}
                 currentPlayer={currentPlayer}
                 wallSelection={wallSelection}
@@ -282,15 +275,19 @@ class Game extends React.Component {
                 onClick={() => this.handleWallMenuButtonClick("W")}
               >
                 <img style={{ width: "90px", height: "90px" }} alt="crown" src={wallW} />
-              </WallMenuButtonContainer>
+              </WallMenuTileContainer>
             </GameWallMenuContainer>
           </BoardAndWallContainer>
+          {/* {winner && ( */}
+            <NewGameButtonContainer
+              theme={theme}
+              winner={winner}
+              onClick={() => this.handleBoardRestart()}
+            >
+              New Game
+            </NewGameButtonContainer>
+          {/* )} */}
         </GameAreaContainer>
-        {winner && (
-          <button className="new-game-button" onClick={this.handleBoardRestart}>
-            New Game
-          </button>
-        )}
       </BackgroundContainer>
     );
   }
