@@ -278,15 +278,13 @@ class Game extends React.Component {
               </WallMenuTileContainer>
             </GameWallMenuContainer>
           </BoardAndWallContainer>
-          {/* {winner && ( */}
-            <NewGameButtonContainer
-              theme={theme}
-              winner={winner}
-              onClick={() => this.handleBoardRestart()}
-            >
-              New Game
-            </NewGameButtonContainer>
-          {/* )} */}
+          <NewGameButtonContainer
+            theme={theme}
+            winner={winner}
+            onClick={() => this.handleBoardRestart()}
+          >
+            New Game
+          </NewGameButtonContainer>
         </GameAreaContainer>
       </BackgroundContainer>
     );

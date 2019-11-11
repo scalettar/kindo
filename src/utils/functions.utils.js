@@ -15,7 +15,7 @@ export const changeOwnership = (tiles, connected, currentPlayer, otherPlayer) =>
             }
         }
     }
-    
+
     return tiles;
 }
 
@@ -32,7 +32,7 @@ export const checkConnected = (tiles, otherPlayer) => {
 
     while (Array.isArray(stack) && stack.length) {
         currentIndex = stack.pop();
-        x = currentIndex / 5|0;
+        x = currentIndex / 5 | 0;
         y = currentIndex % 5;
         if (!connected.includes(currentIndex)) {
             if (tiles[x][y].owner === otherPlayer) {
@@ -54,7 +54,7 @@ export const checkConnected = (tiles, otherPlayer) => {
     }
 
     return connected;
-}    
+}
 
 // Check if a player has won and return winner if one exists
 export const checkWinner = (tiles) => {
