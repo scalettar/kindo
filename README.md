@@ -11,7 +11,7 @@ You can use each of your moves to perform one of the following actions:
 
 * Convert a neutral tile which is horizontally or vertically adjacent to a tile you control
 * Capture an enemy tile which is horizontally or vertically adjacent to a tile you control
-* Place a wall on a tile already you control (if that tile already has a wall, your move will be used to change the direction of the wall)
+* Place a wall on a tile you already control (if that tile already has a wall, your move will be used to change the direction of the wall)
 
 **Walls**
 
