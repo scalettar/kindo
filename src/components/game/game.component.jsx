@@ -59,6 +59,8 @@ class Game extends React.Component {
     data[4][0].isKing = true;
     data[0][4].owner = 2;
     data[4][0].owner = 1;
+    data[0][4].isUnwallable = true;
+    data[4][0].isUnwallable = true;
     // Set unwallable tiles
     data[0][0].isUnwallable = true;
     data[1][1].isUnwallable = true;
