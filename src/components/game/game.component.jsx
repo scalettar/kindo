@@ -22,7 +22,7 @@ import wallW from "../../assets/wallW.png";
 
 class Game extends React.Component {
   state = {
-    theme: "kindo",
+    theme: "kindoLight",
     tiles: this.initializeTiles(),
     tileCount: [1, 1],
     currentPlayer: 1,
