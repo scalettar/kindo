@@ -1,3 +1,13 @@
+## Credits
+
+[Paul Vauvrey](http://www.pvauvrey.com/)
+
+* Original Kindo game design
+
+[Daniel Scalettar](https://github.com/scalettar/)
+
+* Implementation of the Kindo website
+
 ## How to Play
 
 **Goal**
@@ -37,7 +47,9 @@ There are two ways to earn bonus moves:
 
 NOTE: Bonus moves always apply to your next turn, not your current turn.
 
-## v 1.0.0
+## Changelog
+
+### v1.0.0
 
 **Latest Updates**
 
@@ -61,9 +73,3 @@ NOTE: Bonus moves always apply to your next turn, not your current turn.
 * Add ranking system, matchmaking, and leaderboard page
 * Add statistics page
 * Add AI
-
-
-
-
-
-
