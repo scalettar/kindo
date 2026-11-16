@@ -54,7 +54,7 @@ Capture the opponent's King. The game ends immediately, even if the winner has m
 
 The *current behavior* below is what the old code does. Unless decided otherwise, the new engine keeps it.
 
-1. **P1's first turn has 1 move.** The README says "2 moves by default" without mentioning this. It's presumably intentional, to balance going first. *Current: 1 move. Recommendation: keep it and state it on the rules page.*
+1. **P1's first turn has 1 move.** The README says "2 moves by default" without mentioning this. The concept video shows P1 claiming **2** tiles on the first turn. In the code, the 1-move start dates to 2019-10-27 (`e664730`). Like the corner rule, it's probably a balance change made after the concept. *Current: 1 move. Recommendation: keep it and state it on the rules page.*
 2. **A player with no legal moves gets stuck.** Example: P1 is down to only their King, and P2 owns both tiles next to it with walls facing the King. The King can't be walled, so P1 has no legal move. The turn can never end, and the game freezes. *Current: game hangs. Needs a rule. Options: that player loses, or their turn is skipped.*
 3. **There's no resign or end-turn-early option.** A player must spend every move. Changing a wall's direction works as a de facto pass. Online play needs **resign** at least. *Should ending the turn early be allowed?*
 4. **The board flips at the end of the game.** When a King is captured, the mass-capture logic sees every loser tile as cut off, so the whole losing territory flips to the winner on the final board (and a meaningless +1 bonus is recorded). *Keep the dramatic flip, or freeze the board as it was?*

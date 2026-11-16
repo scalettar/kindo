@@ -92,6 +92,7 @@ The candidates are **Supabase** (Postgres, auth, realtime) and **Convex** (TypeS
 5. **Game storage behind one interface.** It uses browser storage (IndexedDB) in Phase 2 and the server in Phase 3, and the screens don't change.
 6. **Seat colors are resolved, never hard-coded.** The board reads `--seat-1` and `--seat-2` from one `resolveSeatColors()` function. It returns the theme's defaults today and accounts for cosmetics later (see below).
 7. **Board coordinates use `row`/`col`,** never the old code's `x` (which was actually the row).
+8. **Moves report events.** `applyMove` returns the new state *and* a list of what happened (claimed, captured, cut-off tiles, bonus awarded, wall changed, turn passed). The UI drives animations from these (see [DESIGN.md](./DESIGN.md)), and replays, tutorial narration and stats reuse them.
 
 ## Visual system: themes vs. unlockable colors
 
@@ -119,7 +120,8 @@ Proposed rules for unlockables (Phase 4, open for discussion):
 - [ ] Port the engine test-first from RULES.md, including tests that pin down the old code's exact behavior
 
 ### Phase 1: MVP, then launch
-- [ ] Board UI matching the current look, responsive down to phone width
+- [ ] Board UI matching the concept design in [DESIGN.md](./DESIGN.md), responsive down to phone width
+- [ ] Animations from the DESIGN.md motion list (turn ring, tile fades, mass-capture cascade, flying "+1" chips), with reduced-motion support
 - [ ] Turn indicator and move pips, wall picker (tap and keyboard), New Game, winner display
 - [ ] Theme switcher: the 4 existing themes, light/dark aware, remembered between visits
 - [ ] Rules page (from RULES.md, with diagrams) and credits page (Paul Vauvrey: game design; Daniel Scalettar: implementation)
