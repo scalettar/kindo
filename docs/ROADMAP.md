@@ -7,7 +7,7 @@ Work happens on the `rewrite` branch. The live site keeps running from the old c
 ## Guiding principles
 
 - **Build properly, in small steps.** Each phase ships something usable; don't one-shot.
-- **Keep the look.** Keep the board, tile shapes, wall/crown/bracket icons and the four existing color themes. Polish them, don't redesign them.
+- **Keep the look.** Keep the board, tile shapes, wall/crown/bracket icons and the existing color themes. Polish them, don't redesign them.
 - **Design for the roadmap, build for today.** Choose the shapes that keep future goals cheap (see *Architecture constraints*), but don't build infrastructure before a feature needs it.
 - **The website comes first.** Mobile reuses the web work instead of competing with it.
 - **Modern but established tools.** Prefer polish and stability over cutting edge. Pick tools that LLMs know well, that are unlikely to disappear, and that fail loudly (build or type errors) rather than silently.
@@ -126,8 +126,8 @@ Applies to both: every palette's colors are checked for contrast by an automated
 ## Phases
 
 ### Phase 0: Foundations (on `rewrite`)
-- [ ] Confirm the proposed decisions above and record them as ADRs
-- [ ] Settle the open rule questions in [RULES.md](./RULES.md)
+- [x] Confirm the proposed decisions above and record them as ADRs
+- [x] Settle the open rule questions in [RULES.md](./RULES.md)
 - [ ] Set up the project (Vite, TypeScript, lint, format, CI)
 - [ ] Cloudflare project with preview deploys of `rewrite`
 - [ ] Port the engine test-first from RULES.md, including tests that pin down the old code's exact behavior
@@ -135,10 +135,11 @@ Applies to both: every palette's colors are checked for contrast by an automated
 ### Phase 1: MVP, then launch
 - [ ] Board UI matching the concept design in [DESIGN.md](./DESIGN.md), responsive down to phone width
 - [ ] Animations from the DESIGN.md motion list (turn ring, tile fades, mass-capture cascade, flying "+1" chips), with reduced-motion support
-- [ ] Turn indicator and move pips, wall picker (tap and keyboard), New Game, winner display
+- [ ] Turn indicator and move pips, wall placement (swipe, drag and keyboard), New Game, winner display
 - [ ] Theme settings: mode (System/Light/Dark) plus a light and a dark theme, from the 6 polished themes (Classic, Bubblegum, Vintage / Versus, Aurora, Dusk), remembered per device. Experimental themes are hidden behind a preview-only switch.
 - [ ] Rules page (from RULES.md, with diagrams) and credits page (Paul Vauvrey: game design; Daniel Scalettar: implementation)
 - [ ] Accessibility basics (real buttons and labels, focus states, keyboard play)
+- [ ] In-game help: a ? button (and the ? key) opening a quick reference to controls and rules without leaving the game
 - [ ] **Capacitor checkpoint:** wrap the site and play it on a real iPhone. If it falls short of the polish bar, reconsider a mobile-first UI ([ADR 0001](./adr/0001-web-first-platform.md))
 - [ ] **Launch:** point playkindo.com at Cloudflare and retire the `gh-pages` branch
 

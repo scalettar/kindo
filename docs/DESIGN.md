@@ -8,7 +8,16 @@ The target look and feel, taken from the concept video (`kindo-concept.mov`, a ~
 
 - **Wide screens (desktop, tablet, phone held sideways):** P1's panel left of the board, P2's panel right. Each player sits on their own King's side (P1 bottom-left, P2 top-right), and neither seat gets top billing.
 - **Portrait phone:** both panels side by side above the board (P1 left, P2 right, the same order as wide). The board fills the lower part of the screen, so taps and wall swipes stay within thumb reach.
-- **Chrome during a game:** close (✕) top-left and menu (☰) top-right, out of the way of play. Replay controls go under the board.
+- **Chrome during a game:** close (✕) top-left, then help (?) and menu (☰) top-right, out of the way of play. Replay controls go under the board.
+
+### In-game help *(Phase 1, accepted)*
+
+A circled **?** button on the game screen opens a quick reference without leaving the game.
+
+- **Opens as a sheet:** a bottom sheet on phones (like game over) and a side panel or dialog on wide screens. The game stays underneath, unchanged. The **?** key opens it too, which is a common convention and doesn't clash with the Shift+ESDF wall keys.
+- **Controls:** take a tile; place a wall by swipe, drag or keyboard. It shows the controls for the current input first, with the others below.
+- **Rules at a glance:** a short summary (moves per turn, walls, mass capture, bonus moves, how to win), with a link to the full rules page.
+- **Following the rules link mustn't lose the game.** In Phase 1 the game lives in memory, which survives moving between pages but not a page reload. Either open the full rules inside the sheet, or keep the current game in browser storage from Phase 1. Decide during the build.
 
 The concept video stacks both panels on the left of the board. The rewrite follows the later reference screens instead.
 
@@ -109,7 +118,7 @@ Screenshots of earlier Kindo work (in German; the rewrite is English first, with
 ## Placing walls
 
 - **Touch:** swipe on your own tile in the direction the wall should face. Swiping toward the top of the screen puts the wall on the North edge.
-- **Proposed for mouse:** the same gesture as a click-and-drag. Pointer events handle touch and mouse with one code path, so the on-screen wall picker can go.
+- **Mouse** *(accepted)*: the same gesture as a click-and-drag. Pointer events handle touch and mouse with one code path. **There is no on-screen wall picker.** The old one only existed because the site explained nothing. The rules page and the in-game help (see *In-game help*) teach the gestures instead, and the tutorial does too from Phase 2.
 - **Keyboard** *(Phase 1, accepted)*:
   - The board is a single Tab stop. Inside it, **arrow keys or ESDF** move focus between tiles (E up, S left, D down, F right), so the left hand can play from the home row.
   - **Enter or Space** takes the focused tile (claim or capture).
