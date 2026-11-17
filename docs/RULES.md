@@ -9,12 +9,12 @@ Credits: game design by [Paul Vauvrey](http://www.pvauvrey.com/). Website by Dan
 - 5×5 grid. Rows are numbered 0–4 from top to bottom and columns 0–4 from left to right.
 - **Kings:** Player 1's King is at bottom-left (row 4, col 0). Player 2's King is at top-right (row 0, col 4). Each player starts owning only their King.
 - **Unwallable tiles:** both Kings, and the five diagonal tiles from top-left to bottom-right: (0,0), (1,1), (2,2), (3,3), (4,4). The diagonal tiles show a bracket icon.
-  - The corners (0,0) and (4,4) were added in Nov 2019 to stop a "border walling" strategy. The Kings were added in Mar 2020.
+  - These are all Paul's rules. The corners (0,0) and (4,4) were added to the site in Nov 2019 (to stop a "border walling" strategy) and the Kings in Mar 2020, both following Paul's revisions to the design.
 - Every other tile starts neutral.
 
 ## Turns
 
-- Player 1 goes first. **P1's first turn has 1 move.** After that, every turn starts with 2 moves plus any bonus moves earned, up to a maximum of 4.
+- Player 1 goes first. **P1's first turn has 1 move.** This was added in Oct 2019 to offset the advantage of moving first. The rules page presents it as an ordinary Kindo rule with no separate credit. After that, every turn starts with 2 moves plus any bonus moves earned, up to a maximum of 4.
 - A player must use all of their moves. The turn passes when the moves run out.
 - Each move is one of:
   1. **Claim** a neutral tile next to (orthogonally) a tile you own.
@@ -48,17 +48,19 @@ Bonus moves always apply to the **next** turn of the player who earned them. Tha
 
 ## Winning
 
-Capture the opponent's King. The game ends immediately, even if the winner has moves left.
+- Capture the opponent's King. The game ends immediately, even if the winner has moves left. Following the mass-capture rule, every remaining tile of the loser is now cut off from their King and flips to the winner. The interface shows this as the win cascade, spreading out from the captured King. No bonus is awarded, because the game is over.
+- **Resignation:** either player may resign at any time, including during the opponent's turn. Resigning is not a Move: it doesn't use a move or change the board. It's recorded in the game record.
+- **Trapped King:** a player who starts their turn with no legal move loses right away. This can only happen when they own nothing but their King and both of its neighbors are opponent tiles walled toward it, and in that position the King would be captured next turn anyway.
 
 ## Open questions
 
 The *current behavior* below is what the old code does. Unless decided otherwise, the new engine keeps it.
 
-1. **P1's first turn has 1 move.** The README says "2 moves by default" without mentioning this. The concept video shows P1 claiming **2** tiles on the first turn. In the code, the 1-move start dates to 2019-10-27 (`e664730`). Like the corner rule, it's probably a balance change made after the concept. *Current: 1 move. Recommendation: keep it and state it on the rules page.*
-2. **A player with no legal moves gets stuck.** Example: P1 is down to only their King, and P2 owns both tiles next to it with walls facing the King. The King can't be walled, so P1 has no legal move. The turn can never end, and the game freezes. *Current: game hangs. Needs a rule. Options: that player loses, or their turn is skipped.*
-3. **There's no resign or end-turn-early option.** A player must spend every move. Changing a wall's direction works as a de facto pass. Online play needs **resign** at least. *Should ending the turn early be allowed?*
-4. **The board flips at the end of the game.** When a King is captured, the mass-capture logic sees every loser tile as cut off, so the whole losing territory flips to the winner on the final board (and a meaningless +1 bonus is recorded). *Keep the dramatic flip, or freeze the board as it was?*
-5. **Long games.** Nothing stops a game from going on forever, for example with wall shuffling. It's probably harmless for hot-seat play, but online and AI games may want a move limit or a draw rule. *Defer until Phase 2/3.*
+1. ~~P1's first-turn move count~~ **Resolved 2026-11-16:** keep 1 move. It's a house balance rule (see *Turns*).
+2. ~~A player with no legal moves gets stuck~~ **Resolved 2026-11-16:** that player loses right away (see *Trapped King* under *Winning*). The old code froze.
+3. **Ending the turn early / resigning.** *Ending the turn early was decided 2026-11-16: not allowed.* A player must spend every move. Turning a wall works as a pass that still costs a move, and it's part of the game's tempo. *Resigning was decided 2026-11-16:* allowed at any time (see *Winning*). Every game's **result** records the winner and the end reason: King captured, Trapped King or Resignation. In Phase 1, "New game" mid-game asks for confirmation and discards the game. From Phase 2, unfinished games stay in the active games list until they're finished, resigned or deleted. Deleting erases a game and records no result.
+4. ~~The board flips at the end of the game~~ **Resolved 2026-11-16:** keep the flip, shown as a cascade, and award no bonus (see *Winning*). Replays let players step back to the position before the final capture.
+5. **Long games.** *Deferred 2026-11-16* to the AI (Phase 2) and online (Phase 3) work. Nothing stops a game from going on forever today. If stalling forever turns out to be practical, that calls for a rules change (a repetition draw, a move cap or turn timers). Results must be able to gain a "draw" later without breaking stored games, which the versioned game records allow.
 
 ## Interface behavior worth keeping (not rules)
 

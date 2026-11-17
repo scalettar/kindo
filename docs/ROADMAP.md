@@ -10,6 +10,7 @@ Work happens on the `rewrite` branch. The live site keeps running from the old c
 - **Keep the look.** Keep the board, tile shapes, wall/crown/bracket icons and the four existing color themes. Polish them, don't redesign them.
 - **Design for the roadmap, build for today.** Choose the shapes that keep future goals cheap (see *Architecture constraints*), but don't build infrastructure before a feature needs it.
 - **The website comes first.** Mobile reuses the web work instead of competing with it.
+- **Modern but established tools.** Prefer polish and stability over cutting edge. Pick tools that LLMs know well, that are unlikely to disappear, and that fail loudly (build or type errors) rather than silently.
 
 ## Current state (as of 2026-11-16)
 
@@ -17,7 +18,7 @@ Work happens on the `rewrite` branch. The live site keeps running from the old c
 - All rules live in `src/components/game/game.component.jsx` and `src/utils/functions.utils.js`, and they change state in place.
 - Hosting: GitHub Pages (`gh-pages` branch, deployed by hand with `npm run deploy`). The last deploy was 2020-03-30 and matches `master`.
 - Domain: `playkindo.com` is registered at Squarespace and will move to Cloudflare DNS separately from this project.
-- Hot-seat 2-player only. There's no rules page, no credits page and no theme picker (the 4 themes exist in code but can't be selected).
+- Hot-seat 2-player only. There's no rules page, no credits page and no theme picker (7 themes exist in code but can't be selected).
 
 ## Goals
 
@@ -44,7 +45,7 @@ Work happens on the `rewrite` branch. The live site keeps running from the old c
 
 These are proposals, not final. Confirm each one (for example with `/grill-with-docs`), and record the ones that are hard to reverse as ADRs in `docs/adr/`.
 
-### Platform: web-first, wrapped for mobile
+### Platform: web-first, wrapped for mobile — **accepted, see [ADR 0001](./adr/0001-web-first-platform.md)**
 
 There's one React web app, designed for phones first. It becomes an installable PWA in Phase 2. In Phase 4 it's wrapped with **Capacitor** for the App Store and Play Store.
 
@@ -57,13 +58,17 @@ Escape hatch: the engine, data access and state logic contain no UI code. If the
 
 ### Stack
 
-- TypeScript (strict), Vite, React 19, React Router
-- CSS Modules + CSS custom properties for theming (styled-components is in maintenance mode, and runtime CSS-in-JS isn't needed)
+- TypeScript (strict), Vite, React 19 *(accepted)*
+- React Router v7 in framework mode, SPA mode, with fixed pages (`/`, `/rules`, `/credits`) built as HTML ahead of time. It can turn on server rendering on Cloudflare later, for example for replay link previews. *(accepted)*
+- vanilla-extract for styling, with typed themes built from the design values *(accepted, see [ADR 0002](./adr/0002-vanilla-extract-styling.md))*
+- Motion for orchestrated animations, plain CSS transitions for the rest *(accepted)*
+- Zustand for the UI-free game store (constraint 11) *(accepted)*
+- i18next + react-i18next with typed keys, English only from Phase 1. All UI text goes through translation keys from the start, and long-form content (rules, tutorial) lives in per-language content files. *(accepted)*
 - Icons converted from PNG to SVG so they scale and can be recolored
 - Vitest + Testing Library, with Playwright for full-game tests later
 - ESLint (flat config) + Prettier, pnpm, GitHub Actions CI (typecheck, lint, test, build)
 
-### Hosting: Cloudflare
+### Hosting: Cloudflare Workers, deployed from GitHub Actions — **accepted, see [ADR 0003](./adr/0003-cloudflare-workers-hosting.md)**
 
 Cloudflare Workers static assets (Cloudflare's recommended path for new projects), or Pages.
 
@@ -85,28 +90,36 @@ The candidates are **Supabase** (Postgres, auth, realtime) and **Convex** (TypeS
 
 ## Architecture constraints (hold these from day one)
 
-1. **Pure engine.** `src/engine/` has no React or browser code (a lint rule enforces this). It provides `createGame()`, `applyMove(state, move)` (returns a new state or an error) and `legalMoves(state)`. The same engine serves the UI, the AI, the tutorial and server-side move checking.
-2. **Games are stored as their initial setup plus a move list.** The current board is computed by replaying the moves. Replays, undo, sharing, multiplayer sync, stats and tutorial scripts all build on this.
-3. **Versioned records.** Every stored game records its rules version and data format version, so old games still replay after rule tweaks.
-4. **Seats have controllers.** P1 and P2 are each controlled by a local human, the AI or a remote player. One board screen serves hot-seat, AI and online play.
-5. **Game storage behind one interface.** It uses browser storage (IndexedDB) in Phase 2 and the server in Phase 3, and the screens don't change.
-6. **Seat colors are resolved, never hard-coded.** The board reads `--seat-1` and `--seat-2` from one `resolveSeatColors()` function. It returns the theme's defaults today and accounts for cosmetics later (see below).
+1. **Pure engine.** `src/engine/` has no React, browser APIs or outside imports, and a lint rule fails CI if it tries. It's deterministic: no clock, randomness or I/O, so timestamps come from the store. The contract is:
+   - `createGame(seats) → GameState`
+   - `applyAction(state, action) → { ok: true, state, events } | { ok: false, reason }`: illegal actions return a typed, named reason (`not-adjacent`, `blocked-by-wall`, `unwallable`, `wall-unchanged`, `not-your-turn`, `game-over`, …), never a thrown error
+   - `legalMoves(state) → Move[]`
+
+   The same engine serves the UI, the AI, the tutorial and server-side move checking.
+2. **Games are stored as an action log** ([ADR 0004](./adr/0004-games-stored-as-action-log.md)). The current board is computed by replaying the moves. Replays, undo, sharing, multiplayer sync, stats and tutorial scripts all build on this.
+3. **Versioned records.** Every stored game records its rules version and data format version, so old games still replay after rule tweaks. Rule changes raise `rulesVersion`, and the engine handles old versions through **rule options** (for example `openingTurnMoves: 1`) rather than keeping old copies of the engine. The first stored games arrive in Phase 2.
+4. **Each seat holds a player of some kind.** P1 and P2 are each occupied by a Local, AI or Remote player (see `CONTEXT.md`). One board screen serves hot-seat, AI and online play. *Phase 3 note:* decide who gets P1 in online games (random, or the challenger picks).
+5. **Game storage behind one interface.** It uses browser storage (IndexedDB) in Phase 2 and the server in Phase 3, and the screens don't change. The storage library (for example Dexie) is chosen in Phase 2.
+6. **Seat colors are resolved, never hard-coded.** The board reads typed `--seat-1` / `--seat-2` variables set by `resolveSeatColors(theme, mode, players, viewer)`. It returns the theme's defaults in Phase 1 and accounts for cosmetics later (see below).
 7. **Board coordinates use `row`/`col`,** never the old code's `x` (which was actually the row).
-8. **Moves report events.** `applyMove` returns the new state *and* a list of what happened (claimed, captured, cut-off tiles, bonus awarded, wall changed, turn passed). The UI drives animations from these (see [DESIGN.md](./DESIGN.md)), and replays, tutorial narration and stats reuse them.
+8. **Actions report events.** `applyAction` returns the new state *and* an ordered list of what happened: `claimed`, `captured`, `cutOff` (tiles plus distance from the capture, for the cascade), `bonusAwarded` (to whom, and from which tile), `wallPlaced` / `wallTurned`, `markersCleared`, `turnPassed`, `gameEnded`. The names may change during implementation. The UI drives animations from these (see [DESIGN.md](./DESIGN.md)), and replays, tutorial narration and stats reuse them.
+9. **Engine test cases are data.** Rules tests live as files listing a starting position, the moves, and the expected state and events. Any other implementation (a React Native app, a native port, the Phase 3 server) is checked against the same files.
+10. **Design values are data.** Theme colors, spacing, sizes and animation timings live in one platform-neutral TypeScript file. The web app generates its CSS variables from it, and a future native UI could read the same values. A theme is a few **source colors** (background, neutral, P1, P2). The rest is **derived by formula**, can be overridden per theme, and is checked by the contrast test. That keeps adding themes cheap (see [DESIGN.md](./DESIGN.md#future-themes-phase-4)).
+11. **React components are thin views.** Game flow and state live in a UI-free layer the components subscribe to, so a different UI could reuse it. (From [ADR 0001](./adr/0001-web-first-platform.md).)
 
 ## Visual system: themes vs. unlockable colors
 
 There are two separate layers:
 
-- **Board theme.** The environment: background, empty and neutral tiles, shadows, UI elements. Themes are built-in, curated and polished. Each theme is marked light or dark. Settings: mode (system / light / dark), plus which theme to use in light mode and which in dark mode.
-- **Piece color.** The color of the tiles a player owns. Every theme has default P1/P2 colors. In Phase 4, unlockable colors can replace *your own* piece color.
+- **Built-in themes** *(Phase 1, accepted)*. A complete, curated palette: background, neutral and empty tiles, UI elements, and both seats' colors. Because we control every color, backgrounds can vary freely between themes. Each theme is marked light or dark. Settings: **mode** (System / Light / Dark), plus the **light theme** and the **dark theme**. Defaults: System / Classic / Versus. The lineup and palettes are in [DESIGN.md](./DESIGN.md#themes). Saved per device in Phase 1.
+- **Player colors** *(Phase 4, direction agreed)*. A separate viewing option in which seats show their players' equipped colors instead of a theme's. To prevent ugly combinations, it uses **one universal light background and one universal dark background**, and every unlockable color is curated against those two only. A player equips one color for light mode and one for dark mode.
 
-Proposed rules for unlockables (Phase 4, open for discussion):
+Still open for Phase 4:
 
-- Each unlockable color is designed as a **light/dark pair** and checked for contrast against every built-in theme. That keeps it polished. A player equips one color for light mode and one for dark mode.
-- **Color clashes:** if both players' colors are too similar (measured by perceived color difference), the viewer's own color wins and the opponent falls back to the theme's default for their seat.
-- There's a viewer setting to show opponents' custom colors or always use theme defaults.
-- Local games (hot-seat, vs AI) use theme defaults, or your equipped color for your own seat.
+- **Color clashes:** if both players' equipped colors are too similar (by perceived color difference), the viewer's own color wins and the opponent falls back to a default.
+- Whether a viewer can always force their built-in theme even when opponents have custom colors.
+
+Applies to both: every palette's colors are checked for contrast by an automated test (seat color vs. neutral tile, last-played marker vs. seat color, and so on), so an unreadable combination fails CI. The old "super" theme shipped with an invisible last-played marker for exactly this reason.
 
 **Level and rank are separate.** Rank measures skill: a Glicko-2 rating that maps to league tiers, possibly by season. Level measures how much you've played: XP that unlocks cosmetics. Losing never costs XP.
 
@@ -123,9 +136,10 @@ Proposed rules for unlockables (Phase 4, open for discussion):
 - [ ] Board UI matching the concept design in [DESIGN.md](./DESIGN.md), responsive down to phone width
 - [ ] Animations from the DESIGN.md motion list (turn ring, tile fades, mass-capture cascade, flying "+1" chips), with reduced-motion support
 - [ ] Turn indicator and move pips, wall picker (tap and keyboard), New Game, winner display
-- [ ] Theme switcher: the 4 existing themes, light/dark aware, remembered between visits
+- [ ] Theme settings: mode (System/Light/Dark) plus a light and a dark theme, from the 6 polished themes (Classic, Bubblegum, Vintage / Versus, Aurora, Dusk), remembered per device. Experimental themes are hidden behind a preview-only switch.
 - [ ] Rules page (from RULES.md, with diagrams) and credits page (Paul Vauvrey: game design; Daniel Scalettar: implementation)
 - [ ] Accessibility basics (real buttons and labels, focus states, keyboard play)
+- [ ] **Capacitor checkpoint:** wrap the site and play it on a real iPhone. If it falls short of the polish bar, reconsider a mobile-first UI ([ADR 0001](./adr/0001-web-first-platform.md))
 - [ ] **Launch:** point playkindo.com at Cloudflare and retire the `gh-pages` branch
 
 ### Phase 2: Features that need no server
@@ -147,6 +161,6 @@ Proposed rules for unlockables (Phase 4, open for discussion):
 ### Phase 4: Longer term
 - [ ] Public, filterable replay list
 - [ ] Ratings, leagues, leaderboard, matchmaking
-- [ ] Levels and XP, unlockable piece colors
+- [ ] Levels and XP, unlockable piece colors and **randomly unlocked themes** (inspiration in [DESIGN.md](./DESIGN.md#future-themes-phase-4))
 - [ ] Capacitor app-store builds (push notifications, links that open in the app, Sign in with Apple)
 - [ ] Live play with presence (both players online at once)
