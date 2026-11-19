@@ -98,7 +98,7 @@ The candidates are **Supabase** (Postgres, auth, realtime) and **Convex** (TypeS
    The same engine serves the UI, the AI, the tutorial and server-side move checking.
 2. **Games are stored as an action log** ([ADR 0004](./adr/0004-games-stored-as-action-log.md)). The current board is computed by replaying the moves. Replays, undo, sharing, multiplayer sync, stats and tutorial scripts all build on this.
 3. **Versioned records.** Every stored game records its rules version and data format version, so old games still replay after rule tweaks. Rule changes raise `rulesVersion`, and the engine handles old versions through **rule options** (for example `openingTurnMoves: 1`) rather than keeping old copies of the engine. The first stored games arrive in Phase 2.
-4. **Each seat holds a player of some kind.** P1 and P2 are each occupied by a Local, AI or Remote player (see `CONTEXT.md`). One board screen serves hot-seat, AI and online play. *Phase 3 note:* decide who gets P1 in online games (random, or the challenger picks).
+4. **Each seat holds a player of some kind.** P1 and P2 are each occupied by a Local, AI or Remote player (see `GLOSSARY.md`). One board screen serves hot-seat, AI and online play. *Phase 3 note:* decide who gets P1 in online games (random, or the challenger picks).
 5. **Game storage behind one interface.** It uses browser storage (IndexedDB) in Phase 2 and the server in Phase 3, and the screens don't change. The storage library (for example Dexie) is chosen in Phase 2.
 6. **Seat colors are resolved, never hard-coded.** The board reads typed `--seat-1` / `--seat-2` variables set by `resolveSeatColors(theme, mode, players, viewer)`. It returns the theme's defaults in Phase 1 and accounts for cosmetics later (see below).
 7. **Board coordinates use `row`/`col`,** never the old code's `x` (which was actually the row).
@@ -130,6 +130,7 @@ Applies to both: every palette's colors are checked for contrast by an automated
 - [x] Settle the open rule questions in [RULES.md](./RULES.md)
 - [ ] Set up the project (Vite, TypeScript, lint, format, CI)
 - [ ] Cloudflare project with preview deploys of `rewrite`
+- [ ] Dev container for unattended agent runs, based on Anthropic's reference container (`anthropics/claude-code` `.devcontainer`): only the repo and a repo-scoped `GH_TOKEN` inside, outbound traffic limited to an allowlist, and no Docker socket mounted. Planning (grill, spec, tickets) stays on the Mac; `/implement` runs that happen while the user is away run in the container.
 - [ ] Port the engine test-first from RULES.md, including tests that pin down the old code's exact behavior
 
 ### Phase 1: MVP, then launch
